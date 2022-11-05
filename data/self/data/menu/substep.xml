@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root id="substep" version="1.0">
+	<item group="0010" type="1" btn_type="" show_price="0" first_select="0" dummy="0" ProdName1="" ProdName2="" alt_name_1="" alt_name_2="" Text="下記よりお選び下さい" alt_text="Please choose from the items below." show_pic="0"/>
+	<item group="0020" type="1" btn_type="" show_price="0" first_select="0" dummy="0" ProdName1="" ProdName2="" alt_name_1="" alt_name_2="" Text="下記よりお選び下さい" alt_text="Please choose from the items below." show_pic="0"/>
+	<item group="0030" type="1" btn_type="00_006" show_price="1" first_select="1" dummy="0" ProdName1="" ProdName2="" alt_name_1="" alt_name_2="" Text="ご飯の量をお選びください" alt_text="Please choose from the items below." show_pic="0"/>
+	<item group="0040" type="1" btn_type="00_003" show_price="0" first_select="0" dummy="0" ProdName1="" ProdName2="" alt_name_1="" alt_name_2="" Text="グラスの数をお選びください" alt_text="Please choose from the items below." show_pic="0"/>
+	<item group="D0010" type="1" btn_type="00_006" show_price="0" first_select="0" dummy="0" ProdName1="" ProdName2="" alt_name_1="" alt_name_2="" Text="麺の固さをお選びください" alt_text="Please choose from the items below." show_pic="0"/>
+	<item group="D0010" type="2" btn_type="00_004" show_price="0" first_select="0" dummy="" ProdName1="" ProdName2="" alt_name_1="" alt_name_2="" Text="ねぎは抜きますか？" alt_text="Please choose from the items below." show_pic="0"/>
+</root>

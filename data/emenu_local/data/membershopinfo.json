@@ -1,0 +1,11 @@
+{
+    "response": {
+        "result": "ok",
+        "shop_point_info": {
+                "point":"300",
+                "added_point":"5",
+                "rank":"ゴールド",
+                "visited_date":"2015-01-01"
+        }
+    }
+}

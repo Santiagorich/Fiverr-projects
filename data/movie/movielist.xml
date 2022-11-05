@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root id="movielist" version="1.0">
+	<lastupdate update="20200531235900"/>
+	<config enable="false" mute="false" firstTimer="5"  endOrderTimer="5" timer="120" afterTimer="12" />
+</root>

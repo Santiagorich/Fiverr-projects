@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root id="get_table_list">
+	<tablelist>
+		<table no="01" />
+		<table no="02" />
+		<table no="03" />
+		<table no="04" />
+		<table no="05" />
+		<table no="06" />
+		<table no="07" />
+		<table no="08" />
+		<table no="09" />
+		<table no="A1" />
+		<table no="A2" />
+		<table no="A3" />
+		<table no="A4" />
+		<table no="A5" />
+		<table no="A6" />
+		<table no="A7" />
+		<table no="A8" />
+		<table no="A9" />
+		<table no="A0" />
+	</tablelist>
+</root>

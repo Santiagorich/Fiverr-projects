@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root id="categorymst" version="1.0">
+	<mode type="01" name="">
+		<category text_enable="true" type="01_02">
+			<fcode categorycode="100" text_1="ラーメン" text_2="" description="" middletxt_1="" middletxt_2="" lock="true" alt_text_1="" alt_text_2="" alt_description="" alt_middletxt_1="" alt_middletxt_2="" warn="000">
+				<scode categorycode="110" text_1="コピー" text_2="" alt_text_1="" alt_text_2="" warn="">
+					<tcode categorycode="111" basetype="00" text_1="小カテゴリ" text_2="" alt_text_1="" alt_text_2="" warn="" alt_basetype="00" class="114"/>
+					<tcode categorycode="112" basetype="01" text_1="小カテゴリ" text_2="" alt_text_1="" alt_text_2="" warn="" alt_basetype="" class="5"/>
+				</scode>
+			</fcode>
+			<fcode categorycode="200" text_1="焼き物" text_2="" description="" middletxt_1="" middletxt_2="" lock="true" alt_text_1="" alt_text_2="" alt_description="" alt_middletxt_1="" alt_middletxt_2="" warn="">
+				<scode categorycode="210" text_1="中カテゴリ" text_2="" alt_text_1="" alt_text_2="" warn="">
+					<tcode categorycode="211" basetype="00" text_1="小カテゴリ" text_2="" alt_text_1="" alt_text_2="" warn="" alt_basetype="00" class="114"/>
+					<tcode categorycode="212" basetype="01" text_1="小カテゴリ" text_2="" alt_text_1="" alt_text_2="" warn="" alt_basetype="" class="5"/>
+				</scode>
+			</fcode>
+		</category>
+	</mode>
+</root>

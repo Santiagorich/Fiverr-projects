@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root id="posmst" version="1.0">
+	<product>
+		<item code="000000001" name_1="屋台仕込みラーメン" name_2="" price="680"/>
+		<item code="000000002" name_1="屋台仕込み味玉ラーメン" name_2="" price="790"/>
+		<item code="000000003" name_1="屋台仕込み高菜ラーメン" name_2="" price="740"/>
+		<item code="000000004" name_1="屋台仕込み辛肉玉ラーメン" name_2="" price="830"/>
+		<item code="000000005" name_1="すっぴんラーメン" name_2="" price="680"/>
+		<item code="000000006" name_1="すっぴん味玉ラーメン" name_2="" price="790"/>
+		<item code="000000007" name_1="すっぴん高菜ラーメン" name_2="" price="740"/>
+		<item code="000000008" name_1="すっぴん辛肉玉ラーメン" name_2="" price="830"/>
+		<item code="000000009" name_1="1番セット（焼きめし）" name_2="" price="308"/>
+		<item code="000000010" name_1="2番セット（半餃子）" name_2="" price="180"/>
+		<item code="000000011" name_1="3番セット（焼きめし＋半餃子）" name_2="" price="480"/>
+		<item code="000000012" name_1="久留米焼きめし" name_2="" price="500"/>
+		<item code="000000013" name_1="焼き餃子" name_2="" price="350"/>
+		<item code="000000014" name_1="並ごはん" name_2="" price="120"/>
+		<item code="000000015" name_1="大ごはん" name_2="" price="180"/>
+		<item code="000000016" name_1="替玉" name_2="" price="130"/>
+		<item code="000000017" name_1="アサヒスーパードライ(中瓶)" name_2="" price="550"/>
+		<item code="000000018" name_1="ドライゼロ" name_2="" price="320"/>
+		<item code="000000019" name_1="ハイボール" name_2="" price="300"/>
+		<item code="000000020" name_1="コーラ" name_2="" price="130"/>
+		<item code="000000021" name_1="オレンジジュース" name_2="" price="130"/>
+		<item code="001000001" name_1="ふつう" name_2="" price="0"/>
+		<item code="001000002" name_1="バリカタ" name_2="" price="0"/>
+		<item code="001000003" name_1="カタ" name_2="" price="0"/>
+		<item code="001000004" name_1="やわ" name_2="" price="0"/>
+		<item code="001000005" name_1="ねぎ抜き" name_2="" price="0"/>
+		<item code="001000006" name_1="並ごはん" name_2="" price="120"/>
+		<item code="001000007" name_1="大ごはん" name_2="" price="180"/>
+		<item code="001000008" name_1="グラス" name_2="" price="0"/>
+		<item code="101000001" name_1="ふつう" name_2="" price="0"/>
+		<item code="101000002" name_1="バリカタ" name_2="" price="0"/>
+		<item code="101000003" name_1="カタ" name_2="" price="0"/>
+		<item code="101000004" name_1="やわ" name_2="" price="0"/>
+		<item code="101000005" name_1="ねぎ抜き" name_2="" price="0"/>
+		<item code="101000006" name_1="並ごはん" name_2="" price="120"/>
+		<item code="101000007" name_1="大ごはん" name_2="" price="180"/>
+		<item code="101000008" name_1="グラス" name_2="" price="0"/>
+	</product>
+</root>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root id="pagemst" version="1.0">
+	<mode type="02" name="">
+		<category code="111">
+			<template baseurl="groundmenu/" type="01_01" title_name="" description1="" description2="" alt_title_name="" alt_description1="" alt_description2=""/>
+			<item id="1"/>
+		</category>
+		<category code="211">
+			<template baseurl="groundmenu/" type="01_01" title_name="" description1="" description2="" alt_title_name="" alt_description1="" alt_description2=""/>
+			<item id="10"/>
+		</category>
+		<category code="311">
+			<template baseurl="groundmenu/" type="01_01" title_name="" description1="" description2="" alt_title_name="" alt_description1="" alt_description2=""/>
+			<item id="20"/>
+		</category>
+	</mode>
+</root>

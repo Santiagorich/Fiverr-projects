@@ -1,0 +1,177 @@
+var config_local = {
+	"billboard": {
+		"enable": "false",
+		"banners": [
+			{
+				"id": "0",
+				"banner": "billboard/001/intro-banner.jpg",
+				"type": "image",
+				"value": "billboard/001/introduction.jpg",
+				"mode": []
+			},
+			{
+				"id": "1",
+				"banner": "billboard/001/allergy-banner.jpg",
+				"type": "image",
+				"value": "billboard/001/allergy.jpg",
+				"mode": []
+			},
+			{
+				"id": "2",
+				"banner": "billboard/001/enjoy-banner.jpg",
+				"type": "image",
+				"value": "billboard/001/enjoy-ramen.jpg",
+				"mode": []
+			}
+		]
+	},
+	"alternate": {
+		"default": "jp",
+		"language": [
+			{
+				"id": "jp",
+				"name": "日本語",
+				"langfaile": "jp.json",
+				"admessage": "いらっしゃいませ",
+				"loading": "お待ちください"
+			},
+			{
+				"id": "en",
+				"name": "English",
+				"langfaile": "en.json",
+				"admessage": "Welcome!",
+				"loading": "Please wait."
+			},
+			{
+				"id": "ko",
+				"name": "한국어",
+				"langfaile": "ko.json",
+				"admessage": "어서오세요!",
+				"loading": "기다려 주세요"
+			},
+			{
+				"id": "ch",
+				"name": "简体字",
+				"langfaile": "ch.json",
+				"admessage": "歡迎光臨!",
+				"loading": "请您稍等"
+			},
+			{
+				"id": "ch_tw",
+				"name": "繁體字",
+				"langfaile": "ch_tw.json",
+				"admessage": "欢迎光临!",
+				"loading": "請稍等"
+			}
+		],
+		"button_enable": "false"
+	},
+	"check_order": {
+		"enable": "false",
+		"price": "true",
+		"status": "false",
+		"total_include_tax": "true",
+		"refill": "true"
+	},
+	"product": {
+		"type": ".png",
+		"option_price_text": "false"
+	},
+	"menubody": {
+		"include_select": {
+			"select": [],
+			"add_price": "false"
+		}
+	},
+	"welcome": {
+		"staffcall_enable": "true",
+		"admessage": {
+			"enable": "true"
+		}
+	},
+	"login": {
+		"enable": "false",
+		"wlan_update": "true"
+	},
+	"fcategory_top": {
+		"refill": {
+			"enable": "false",
+			"drink": "true",
+			"food": "true",
+			"order": "true"
+		},
+		"recommend": {
+			"enable": "false",
+			"code": "221",
+			"item_code": [],
+			"order": "true"
+		},
+		"timer": {
+			"enable": "false",
+			"time": "120"
+		},
+		"alternate": {
+			"enable": "false"
+		},
+		"search": {
+			"enable": "false"
+		},
+		"banner": {
+			"enable": "true"
+		},
+		"image_type": ".jpg",
+		"staff": {
+			"enable": "false"
+		},
+		"admessage": {
+			"enable": "true"
+		}
+	},
+	"account_division": {
+		"enable": "true"
+	},
+	"first_category": {
+		"enable": "false",
+		"code": "",
+		"mode": []
+	},
+	"search": {
+		"enable": "true",
+		"btn_enable": "true",
+		"number": "true",
+		"hiragana": "true",
+		"hiragana_50": "true",
+		"search_btn": "true",
+		"number_match": "true"
+	},
+	"order_confirm": {
+		"total_price": "true"
+	},
+	"stat": {
+		"batt_alert": {
+			"enable": "false",
+			"interval": "600000000"
+		}
+	},
+	"shop": {
+		"color": "cumin"
+	},
+	"flick": {
+		"enable": "false"
+	},
+	"message": {
+		"text_class": "white"
+	},
+	"scategory": {
+		"top_enable": "false",
+		"image_type": ".jpg"
+	},
+	"staffcall": {
+		"btn_enable": "true"
+	},
+	"navigation": {
+		"viewmenu": {
+			"rightbutton": "search"
+		}
+	}
+}

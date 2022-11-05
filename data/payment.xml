@@ -1,0 +1,4 @@
+<payment>
+	<config enable="true" type="elepay" public_key="pk_live_ae9e2307912849b81244e" secret_key="sk_live_898a1e2c177b184ddc87c" />
+	<pos money_id="2" receipt="1" />
+</payment>

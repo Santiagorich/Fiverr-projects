@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root id="custompage" version="1.0">
+  <mode type="" name="">
+    <category code="910" lastupdate="0217">
+       <template baseurl="optionmenu/" type="opt1" title_name="" description1="" description2=""/>
+       	<item id="999"/>
+            <item id="3"/>
+            <item id="11"/>
+            <item id="13"/>
+            <item id="10"/>
+            <item id="11"/>
+            <item id="13"/>
+            <item id="10"/>
+    </category>
+    <category code="920" lastupdate="0217">
+       <template baseurl="optionmenu/" type="opt1" title_name="" description1="" description2=""/>
+          <item id="2"/>
+          <item id="3"/>
+          <item id="113"/>
+    </category>
+    <category code="930" lastupdate="0217">
+      <template baseurl="optionmenu/" type="opt1" title_name="" description1="" description2=""/>
+         <item id="2"/>
+          <item id="3"/>
+          <item id="113"/>
+    </category>
+  </mode>
+</root>

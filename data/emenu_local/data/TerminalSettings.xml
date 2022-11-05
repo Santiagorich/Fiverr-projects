@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+<TMS.Debug>FALSE</TMS.Debug>
+<TMS.Interval>5000</TMS.Interval>
+<TMS.KeepAlive>30000</TMS.KeepAlive>
+<TMS.Brightness>50</TMS.Brightness>
+<Flash.Home>http://192.168.0.100/self/android.html</Flash.Home>
+<Contents.Home>http://192.168.0.100/contents/index.html</Contents.Home>
+<Screen.SavePower>FALSE</Screen.SavePower>
+<Screen.Interval>60</Screen.Interval>
+<Screen.AutoOff>60</Screen.AutoOff>
+<Screen.OffBrightness>0.01</Screen.OffBrightness>
+<Startup.SplashTime>30000</Startup.SplashTime>
+<Startup.NetworkCheckInterval>30000</Startup.NetworkCheckInterval>
+<Startup.UpdateHostName>192.168.0.100</Startup.UpdateHostName>
+<Startup.UpdatePortNo>22525</Startup.UpdatePortNo>
+<Startup.UpdateTimeout>0</Startup.UpdateTimeout>
+<NKeep.HostName>192.168.0.100</NKeep.HostName>
+<NKeep.PortNo>6000</NKeep.PortNo>
+<NKeep.Interval>200</NKeep.Interval>
+<NKeep.NKeepDisconnectInterval>30000</NKeep.NKeepDisconnectInterval>
+<Ntp.Interval>10</Ntp.Interval>
+<Ntp.HostName>192.168.0.100</Ntp.HostName>
+<Ntp.RetryCount>10</Ntp.RetryCount>
+<Ntp.Timeout>5</Ntp.Timeout>
+
+<!-- ここ https://ssl.mbtn.jp/ -->
+<epark.HostName>https://choco.mbtn.sbmgs.info/</epark.HostName>
+<epark.StoreID>0000111001</epark.StoreID>
+<epark.StorePassword>1111</epark.StorePassword>
+
+</root>
+
+

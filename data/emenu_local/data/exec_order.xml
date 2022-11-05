@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<root id="exec_order">
+	<status code="0" />
+</root>
+<!-- 
+<root id="error">
+	<error code="7" />
+	<spec>
+		<code value="5" />
+		<sender value="1" />
+		<data value="5,9,12,45" />
+		<desc value="OES(EmOesOrder) error..exe for O POS_E_ILLEGAL)EED9" />
+	</spec>
+</root>
+ -->

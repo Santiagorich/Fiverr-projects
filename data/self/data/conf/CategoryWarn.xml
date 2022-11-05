@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CategoryWarn>
+	<item id="000" name="警告なし"/>
+	<item id="001" name="学校警告" every="true" mode="" message="category_alert_001" />
+</CategoryWarn>

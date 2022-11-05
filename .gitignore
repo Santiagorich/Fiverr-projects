@@ -1,0 +1,5 @@
+quantstats/env
+quantstats/build
+quantstats/dist
+nordalign features/Wav transform/ffmpeg/
+quantstats/quantstats_report_within_compiled_code_test.exe

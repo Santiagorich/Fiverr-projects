@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<root id="check_order">
+	<product count="15" total="20505">
+		<item id="536" name="ぶり" amount="1" price="105" status="2" />
+		<item id="3" name="びんちょうまぐろ" amount="2" price="105"  status="1" />
+		<item id="4" name="生サーモン" amount="1" price="105" status="2" />
+		<item id="5" name="うなぎ蒲焼" amount="99" price="105" status="2" />
+		<item id="313" name="真いか" amount="1" price="105" status="2" />
+		<item id="6191" name="真いか" amount="1" price="105" status="2" />
+		<item id="6186" name="真いか" amount="1" price="105" status="2" />
+		<item id="8" name="真いか" amount="1" price="105" status="2" />
+	</product>
+</root>

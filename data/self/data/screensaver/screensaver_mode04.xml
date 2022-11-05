@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root id="screensaver" version="1.0">
+	<contents timer="0" movielength="0" enable="false">
+		<movie url="" title="" alt_title="" caption="" alt_caption="" align="left" valign="top" linktype="" code="" display_after=""/>
+	</contents>
+</root>

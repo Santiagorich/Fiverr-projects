@@ -1,0 +1,99 @@
+@charset "UTF-8";
+/* 全ページに読み込まれる変数格納scss */
+/* 色 */
+/* z-indexを管理 */
+/**
+ * mixin
+ */
+/* ボタン */
+/* グラデーションボタン */
+/* 透明ボタン */
+/* 画像ボタン */
+/* sprite画像 */
+/* グラデーション */
+/* グラデーション(終点の指定あり) */
+/* グラデーション(終点の指定あり) */
+/* absolute center */
+/**
+ * 325端末用CSS
+ */
+.next,
+.prev,
+#select .stepbox .btn_next,
+#select .stepbox .btn_prev {
+  background: rgba(255, 255, 255, 0);
+  width: 238px;
+  height: 26px;
+  -webkit-box-shadow: 0 0 0 0;
+  -moz-box-shadow: 0 0 0 0;
+  box-shadow: 0 0 0 0;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  -ms-border-radius: 0;
+  -o-border-radius: 0;
+  border-radius: 0;
+  text-indent: -1000em !important;
+  pointer-events: none;
+}
+
+.next:after,
+#select .stepbox .btn_next:after {
+  content: '▼';
+  display: block;
+  position: absolute;
+  top: 5px;
+  left: 112px;
+  text-indent: 0em;
+  opacity: .6;
+}
+
+.prev:after,
+#select .stepbox .btn_prev:after {
+  content: '▲';
+  display: block;
+  position: absolute;
+  top: 5px;
+  left: 112px;
+  text-indent: 0em;
+  opacity: .6;
+}
+
+#normalcart .next {
+  top: 662px;
+  left: 13px;
+}
+
+#normalcart .prev {
+  top: 75px;
+  left: 13px;
+}
+
+#largecart .next {
+  top: 480px;
+  left: 260px;
+}
+
+#largecart .prev {
+  top: 120px;
+  left: 260px;
+}
+
+#check-order-list .next {
+  top: 465px;
+  left: 250px;
+}
+
+#check-order-list .prev {
+  top: 132px;
+  left: 250px;
+}
+
+#search .next:after,
+#search .prev:after {
+  left: 40px;
+}
+
+#select .stepbox .btn_prev:after,
+#select .stepbox .btn_next:after {
+  left: 25px;
+}

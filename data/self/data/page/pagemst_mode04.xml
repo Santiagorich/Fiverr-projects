@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root id="pagemst" version="1.0">
+	<mode type="04" name="">
+		<category code="111">
+			<template baseurl="groundmenu/" type="Z01_04" title_name="" description1="" description2="" alt_title_name="" alt_description1="" alt_description2=""/>
+			<item id="1"/>
+			<item id="2"/>
+			<item id="1"/>
+			<item id="1"/>
+		</category>
+		<category code="112">
+			<template baseurl="groundmenu/" type="01_08" title_name="" description1="" description2="" alt_title_name="" alt_description1="" alt_description2=""/>
+			<item id="13"/>
+			<item id="14"/>
+			<item id="15"/>
+			<item id="16"/>
+			<item id="17"/>
+			<item id="18"/>
+			<item id="19"/>
+			<item id="20"/>
+		</category>
+	</mode>
+</root>

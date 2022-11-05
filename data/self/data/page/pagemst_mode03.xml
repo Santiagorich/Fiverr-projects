@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root id="pagemst" version="1.0">
+	<mode type="03" name="">
+		<category code="111">
+			<template baseurl="groundmenu/" type="Z02_12" title_name="" description1="" description2="" alt_title_name="" alt_description1="" alt_description2=""/>
+			<item id="5"/>
+			<item id="12"/>
+			<item id="13"/>
+			<item id="14"/>
+			<item id="15"/>
+			<item id="16"/>
+			<item id="17"/>
+			<item id="18"/>
+			<item id="19"/>
+			<item id="20"/>
+			<item id="21"/>
+			<item id="10"/>
+		</category>
+		<category code="121">
+			<template baseurl="groundmenu/" type="Z02_09" title_name="" description1="" description2="" alt_title_name="" alt_description1="" alt_description2=""/>
+			<item id="1"/>
+			<item id="2"/>
+			<item id="3"/>
+			<item id="4"/>
+			<item id="5"/>
+			<item id="6"/>
+			<item id="7"/>
+			<item id="8"/>
+			<item id="9"/>
+		</category>
+		<category code="131">
+			<template baseurl="groundmenu/" type="Z01_10" title_name="" description1="" description2="" alt_title_name="" alt_description1="" alt_description2=""/>
+			<item id="12"/>
+			<item id="13"/>
+			<item id="14"/>
+			<item id="15"/>
+			<item id="16"/>
+			<item id="17"/>
+			<item id="18"/>
+			<item id="19"/>
+			<item id="20"/>
+			<item id="21"/>
+		</category>
+	</mode>
+</root>

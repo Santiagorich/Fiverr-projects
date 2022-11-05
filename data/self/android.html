@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache" />
+<meta http-equiv="expires" content="0" />
+<meta name="format-detection" content="telephone=no">
+
+<link rel="stylesheet" type="text/css" href="libs/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="libs/css/shop.css">
+<link rel="stylesheet" type="text/css" href="libs/css/font.css">
+
+<script type='text/javascript' src="libs/js/jquery-2.1.1.min.js" ></script>
+<script type='text/javascript' src="libs/js/Config.js" ></script>
+<script type='text/javascript' src="config.json"></script>
+<script type='text/javascript' src="libs/js/Emenu.1.1.4.js" ></script>
+<script type='text/javascript' src="libs/js/Setup.js" ></script>
+
+	<script type="text/javascript">
+		var time = 360; //タイムアウト時間（秒）
+
+		time += Math.floor( Math.random() * 30 ); //ずらし
+		var timer = setTimeout(function(){
+			location.reload();
+		}, time * 1000);
+		$(document).ready( function() {
+			clearTimeout(timer);
+		} );
+	</script>
+
+</head>
+
+<body id="xga">
+
+<div id="page">
+
+	<!-- Main -->
+	<div id="main" top="false" cart="false">
+
+		<div id="menu-page" class="container">
+
+			<!--カテゴリーボタン-->
+			<div id="fcategory"></div>
+			<div id="scategory"></div>
+			<div id="tcategory"></div>
+
+			<!--メニュー-->
+			<div id="menu-page-layout">
+				<div id="menu-bodys" class=""></div>
+			</div>
+			<!-- <div id="menu-navi"> -->
+				<div class="menu-navi navi-left">
+					<button class="navi-left-btn">前へ</button>
+				</div>
+				<div class="menu-navi navi-right">
+					<button class="navi-right-btn">次へ</button>
+				</div>
+				<div class="menu-navi navi-top">
+					<button class="navi-top-btn">前へ</button>
+				</div>
+				<div class="menu-navi navi-bottom">
+					<button class="navi-bottom-btn">次へ</button>
+				</div>
+				<div class="menu-navi pager-box"><p class="pager"></p></div>
+			<!-- </div> -->
+			
+			<!--スモールカート-->
+			<div id="smallcart" class="cart">
+				<button class="cart-open">注文する</button>
+				<i class="cart-catch"></i>
+				<p class="food-num">
+					<i class="food"></i><em></em>
+				</p>
+				<p class="drink-num">
+					<i class="drink"></i><em></em>
+				</p>
+			</div>
+
+			<!--カートアラート-->
+			<div id="cart-timeup-alert" class="arrow_bottom">
+				<p class="message">まだ注文は完了しておりません</p>
+			</div>
+
+			<!--パネルカート-->
+			<div id="panelcart" class="cart">
+				<div id="cart-limit-message">
+					<p class="num">0</p>
+				</div>
+				<div class="item-list">
+					<ul></ul>
+				</div>
+				<div class="total">
+					<p class="total-title">合計金額</p><p class="total-price"></p>
+				</div>
+				<div class="order">
+					<button class="order-btn">注文する</button>
+					<button class="cancel-btn">中止</button>
+				</div>
+			</div>
+
+			<!--通常カート画面-->
+			<div id="normalcart" class="cart">
+				<section>
+					<div class="item-list">
+						<header>
+							<span class="name">商品名</span>
+							<span class="num">数</span>
+							<span class="cart_counter">変更</span>
+						</header>
+						<ul></ul>
+					</div>
+					<button class="next">下へ</button>
+					<button class="prev">上へ</button>
+					<div class="total">
+						<p class="total-title">合計金額</p><p class="total-price"></p>
+					</div>
+					<div class="order">
+						<button class="cancel-btn">中止</button>
+						<button class="order-btn">注文する</button>
+					</div>
+				</section>
+			</div>
+
+			<!--商品詳細-->
+			<div id="detail" class="modal">
+				<section>
+					<div class="close"><button class="close-btn">閉じる</button></div>
+					<div class="order"><button class="order-btn">注文する</button></div>
+					<div class="item"></div>			
+				</section>
+			</div>
+
+			<!--セレクト-->
+			<div id="select" class="modal">
+				<section>
+					<div class="close"><button class="close-btn">閉じる</button></div>
+					<div class="item"></div>	
+					<div class="btns"></div>
+				</section>
+			</div>
+
+			<!--セットメニュー-->
+			<div id="setmenu" class="modal">
+				<section>
+					<h2 class="title">セットメニュー</h2>
+					<div class="close"><button class="close-btn">閉じる</button></div>
+					<div class="dummy"><button class="dummy-btn">閉じる</button></div>
+					<div class="prev-step"><button class="prev-step-btn">戻る</button></div>
+					<div class="item-list">
+						<ul></ul>
+					</div>
+					<button class="next">下へ</button>
+					<button class="prev">上へ</button>
+				</section>
+			</div>
+
+			<!--注文確認画面-->
+			<div id="largecart" class="modal cart">
+				<section>
+					<div class="close"><button class="close-btn">閉じる</button></div>
+					<h3 class="title">このご注文内容でよろしいでしょうか？</h3>
+					<div class="item-list">
+						<header>
+							<span class="name">商品名</span>
+							<span class="num">数</span>
+							<span class="price">金額</span>
+							<span class="cart_counter">変更</span>
+						</header>
+						<ul></ul>
+						<!-- <p class="tax-info">※表示価格は税抜き価格です。</p> -->
+					</div>
+					<button class="next">下へ</button>
+					<button class="prev">上へ</button>
+					<div class="total">
+						<p class="total-title">合計金額</p><p class="total-price"></p>
+					</div>
+					<div class="order">
+						<button class="cancel-btn">中止</button>
+						<button class="order-btn">注文する</button>
+					</div>
+
+					<button id="largecart-coupon-btn"></button>
+				</section>
+			</div>
+
+			<!--グランドトップ-->
+			<div id="fcategory-top" class="container">
+				<div class="body"></div>
+				<div class="page-jump"></div>
+				<div class="daily-btn">
+					<i class="icon-stop">本日のご用意がございません。</i>
+					<button>おすすめ</button>
+				</div>
+				<div class="refill">
+					<h4 class="title">おかわり</h4>
+					<div class="item-list">
+						<ul></ul>
+					</div>
+				</div>
+				<div class="recommend">
+					<h4 class="title">おすすめ</h4>
+					<div class="item-list">
+						<ul></ul>
+					</div>
+				</div>
+				<div class="alternate"></div>
+				<div class="banners">
+					<div class="item-list">
+						<ul class="banner-area"></ul>
+					</div>
+				</div>
+				<button id="top-coupon-btn"></button>
+			</div>
+
+
+			<!-- クーポン画面 -->
+			<div id="coupon" class="container">
+				<input type="text" id="coupon-input" class="hidden" readonly>
+				<div class="close"><button class="close-btn">閉じる</button></div>
+				<h3 class="coupon-text">クーポンをバーコードリーダーにかざしてください</h3>
+				<div class="arrow">▲</div>
+			</div>
+
+
+			<!--番号入力-->
+			<div id="number-input" class="container">
+				<section>
+					<header>
+						<h3 class="no-input-title">商品番号を入力してください。</h3>
+						<h3 class="num-input-title">注文数を入力してください。</h3>
+					</header>
+					<div class="no-input-bodys input">
+						<div class="inputs-box">
+							<label class="no-input-label">No.</label>
+							<input type="text" class="inputs" placeholder="">
+						</div>					
+						<div class="buttons"></div>
+						<div class="order">
+							<button class="next-btn">次へ</button>
+						</div>
+					</div>
+					<div class="num-input-bodys input">
+						<div class="inputs-box">
+							<label class="num-input-label">注文数</label>
+							<input type="text" class="inputs" placeholder="">
+						</div>	
+						<div class="buttons"></div>
+						<div class="counter">
+							<button class="decrement">－</button>
+							<span class="count"><em></em></span>
+							<button class="increment">＋</button>
+						</div>
+						<div class="item"></div>
+						<div class="order">
+							<button class="order-btn">注文</button>
+							<button class="cancel-btn">中止</button>
+						</div>
+					</div>
+				</section>
+			</div>
+
+			<!--中カテトップ-->
+			<div id="scategory-top" class="container"></div>
+			
+			<!--味噌汁・お茶選択-->
+			<div id="first-category">
+				<div class="buttons">
+					<button class="no">注文しない</button>
+					<button class="yes">注文する</button>
+				</div>
+			</div>
+
+			<!--ショップ情報バナー-->
+			<div id="billboard-banner">
+				<div class="item-list">
+					<ul class="banner-area"></ul>
+				</div>
+			</div>
+
+			<!--ショップ情報-->
+			<div id="billboard" class="modal">
+				<section>
+					<div class="close"><button class="close-btn">閉じる</button></div>
+					<div id="billboard-body"></div>
+					<button class="next">次へ</button>
+					<button class="prev">前へ</button>
+				</section>
+			</div>
+
+			<!--おすすめ（daily, fair）-->
+			<div id="daily" class="modal">
+				<section>
+					<h2  class="title"></h2>
+					<div class="close"><button class="close-btn">閉じる</button></div>
+					<div class="item-list">
+						<header>
+							<button class="daily">おすすめ</button>
+							<button class="fair">期間限定</button>
+						</header>
+						<ul></ul>
+					</div>
+					<button class="next">下へ</button>
+					<button class="prev">上へ</button>
+				</section>
+			</div>
+			
+
+			<!--ランク別メニュー-->
+			<div id="rank-menu" class="modal">
+				<section>
+					<h2  class="title"></h2>
+					<div class="close"><button class="close-btn">閉じる</button></div>
+					<div class="item-list">
+						<ul></ul>
+					</div>
+					<button class="next">下へ</button>
+					<button class="prev">上へ</button>
+				</section>
+			</div>
+
+
+			<!--注文履歴-->
+			<div id="check-order-list" class="modal">
+				<section>
+					<h2 class="title">注文内容タイトル</h2>
+					<div class="close"><button class="close-btn">閉じる</button></div>
+					<div class="item-list">
+						<header>
+							<span class="name">商品名</span>
+							<span class="num">数</span>
+							<span class="price">金額</span>
+							<span class="status">提供済</span>
+							<span class="refill">おかわり</span>
+						</header>
+						<ul></ul>
+						<!-- <p class="tax-info">※表示価格は税抜き価格です。</p> -->
+					</div>
+					<button class="next">下へ</button>
+					<button class="prev">上へ</button>
+					<div class="total">
+						<p class="total-title">合計金額</p><p class="total-price"></p>
+						<button class="account-btn">割り勘計算</button>
+					</div>
+				</section>
+			</div>
+
+			<!--わりかん画面-->
+			<div id="account-division" class="modal">
+				<section>
+					<h2 class="title">割り勘計算</h2>
+					<div class="close"><button class="close-btn">閉じる</button></div>
+
+					<div class="total">
+						<p class="total-title">合計金額</p><p class="total-price"></p>
+					</div>
+					<div class="men">
+						<div class="men_name">男性</div>
+						<div class="num-area">
+							<h4 class="t1">割り勘人数</h4>
+							<p class="person">0</p>
+							<label>人</label>
+							<button class="decrement">-</button>
+							<button class="add">+</button>
+						</div>
+						<div class="price-area">
+							<h3 class="t1">お一人様あたりの金額</h3>
+							<div class="price-block">
+								<p class="price">0</p>
+								<label>円</label>
+							</div>
+							<hr />
+							<h4 class="t2">1人分を変更</h4>
+							<button class="decrement">-</button>
+							<button class="add">+</button>
+						</div>
+					</div>
+					<div class="women">
+						<div class="women_name">女性</div>
+						<div class="num-area">
+							<h4 class="t1">割り勘人数</h4>
+							<p class="person">0</p>
+							<label>人</label>
+							<button class="decrement">-</button>
+							<button class="add">+</button>
+						</div>
+						<div class="price-area">
+							<h3 class="t1">お一人様あたりの金額</h3>
+							<div class="price-block">
+								<p class="price">0</p>
+								<label>円</label>
+							</div>
+							<hr />
+							<h4 class="t2">一人分を変更</h4>
+							<button class="decrement">-</button>
+							<button class="add">+</button>
+						</div>
+					</div>
+				</section>
+			</div>
+
+			<!--注文終了ロック画面-->
+			<div id="order-lock">
+				<h1 class="order-lock-text"></h1>
+			</div>
+
+			<!-- 店舗メッセージ -->
+			<div id="admessage">
+				<h2 class="title">当店からのお知らせ</h2>
+				<div class="">
+					<p class="message"></p>
+				</div>
+			</div>
+
+			<!-- 卓指定メッセージ -->
+			<div id="adlocalmessage" class="modal">
+				<section>
+					<div class="">
+						<p class="message"></p>
+					</div>
+					<div class="close">
+						<button class="close-btn">もどる</button>
+					</div>
+				</section>
+			</div>
+
+			<!-- 到着案内 -->
+			<div id="arrival" class="modal">
+				<section>
+					<h3 class="arrive-title">到着メッセージ</h3>
+					<div class="item-list move">
+						<ul></ul>
+					</div>
+					<div class="close">
+						<button class="close-btn">もどる</button>
+					</div>
+				</section>
+			</div>
+			<!-- RL返却案内（到着しました） -->
+			<div id="rl-arrival" class="modal">
+				<section>
+					<h3 class="arrive-title">到着メッセージ</h3>
+					<div class="close">
+						<button class="close-btn">もどる</button>
+					</div>
+				</section>
+			</div>
+
+			<!--商品検索-->
+			<div id="search" class="modal">
+				<section>
+					<div class="close"><button class="close-btn">閉じる</button></div>		
+					<div class="input">
+						<h3 class="title">メニュー番号を入力</h3>
+						<input type="text" id="search-input" placeholder="">
+						<button class="search-btn">検索</button>
+						<div class="buttons"></div>
+						<button class="next">下へ</button>
+						<button class="prev">上へ</button>
+					</div>
+					<div class="item-list">
+						<ul></ul>
+						<button class="next">下へ</button>
+						<button class="prev">上へ</button>
+					</div>		
+					<div class="order">
+						<button class="reset-btn">続けて商品を選ぶ</button>
+						<button class="order-btn">注文する</button>
+					</div>
+				</section>	
+			</div>
+			
+			<!--ページ検索-->
+			<div id="page-search" class="modal">
+				<section>
+					<div class="close"><button class="close-btn">閉じる</button></div>		
+					<div class="input">
+						<h3 class="title">ページ番号を入力</h3>
+						<input type="text" id="page-search-input" placeholder="">
+						<div class="buttons"></div>
+					</div>
+					<div class="ok">
+						<button class="ok-btn">選択</button>
+					</div>
+				</section>	
+			</div>
+
+
+			<!--ナビゲーションエリア-->
+			<div id="navigation">
+				<!--トップへ戻る-->
+				<button id="go-top">最初へ戻る</button>
+				
+				<!--会計呼び出し-->
+				<button id="accounting-call">会計呼び出し</button>
+				<!--ゲームボタン-->
+				<button id="game-btn">ゲーム</button>
+				<!--商品検索ボタン-->
+				<button id="search-btn">検索</button>
+				<!--ページ検索ボタン-->
+				<button id="page-search-btn">ページ検索</button>
+
+			</div>
+			<!--スタッフ呼び出し-->
+			<button id="staff-call">スタッフ呼び出し</button>
+			<!--注文履歴呼び出し-->
+			<button id="ordercheck-btn">注文確認</button>
+
+
+			<!--制限時間表示-->
+			<div id="party-timer">
+				<div class="countdown">
+					<span class="title"></span>
+					<span class="min"></span>
+					<span class="msg"></span>
+				</div>
+				<div class="now" data-title="現在時間"></div>
+				<div class="end" data-title="終了時間"></div>
+			</div>
+
+
+			<!--決済画面-->
+			<div id="payment">
+				<section id="payment-select">
+					<h1 class="text">お支払い方法をお選びください</h1>
+					<div class="close">
+						<button class="close-btn">もどる</button>
+					</div>
+
+					<div class="select">
+						<button id="pay-chash">現金・クレジットカードでお支払い</button>
+						<button id="pay-qr">コード決済でお支払い</button>
+					</div>
+				</section>
+
+				<section id="payment-qr">
+					<div id="payment-qr-container"></div>
+
+					<div class="close">
+						<button class="close-btn">もどる</button>
+					</div>
+
+				</section>
+			</div>
+
+
+			<!--アニメーションフレーム-->
+			<div id="animate"></div>
+		</div>
+	
+		<!--ゲームフレーム-->
+		<div id="game-frame"></div>
+
+		<!--スクリーンセーバー-->
+		<div id="screensaver"></div>
+
+		<!--利用開始-->
+		<div id="login" class="container board">
+			<h1 class="login-text">本日はご来店ありがとうございます</h1>
+			<div class="close">
+				<button class="close-btn">利用開始</button>
+			</div>
+		</div>
+
+		<!--待機画面-->
+		<div id="welcome" class="container board">
+			<div class="background"></div>
+			<h1 id="welcome-text">いらっしゃいませ</h1>
+			<p class="ad-message"></p>
+			<!--チェックイン要求-->
+			<button class="do-checkin"></button>
+			<!--スタッフ呼び出し-->
+			<button class="staffcall"></button>
+
+			<!--人数入力-->
+			<div id="person-input" class="modal">
+				<section>
+					<h3>人数を入力してください。<br>Please enter the number of visitors.</h3>
+					<input type="text" class="inputs" placeholder="">
+					<div class="box"></div>
+					<button class="checkin">送信/Submit</button>
+					<div class="close">
+						<button class="close-btn">もどる</button>
+					</div>
+				</section>
+			</div>
+		</div>
+
+		<!--バッシング-->
+		<div id="bashing" class="container board">
+			<div class="background"></div>
+			<h1 id="bashing-text">ありがとうございました</h1>
+			<!--バッシング終了-->
+			<div id="go-welcome">
+				<button class="btn1" data-index="1"></button>
+				<!--button class="btn2" data-index="2"></button-->
+			</div>
+		</div>
+
+		<!--消しこみ・チェックアウト要求-->
+		<button id="requeat-checkout-btn"></button>
+		<div id="request-checkout" class="modal">
+			<section>
+				<div class="box">
+					<button class="delete-btn">消しこみ</button>
+					<button class="checkout-btn">チェックアウト</button>
+				</div>
+				<div class="close">
+					<button class="close-btn">もどる</button>
+				</div>
+			</section>
+		</div>
+
+		<!--バッテリー・無線状況-->
+		<div id="stat">
+			<div class="wlan"></div>
+			<div class="battery"></div>
+			<div class="battery_text"></div>
+		</div>
+		
+		<!--多言語ボタン-->
+		<button id="alternate-btn">言語設定</button>
+
+		<!--多言語セット-->
+		<div id="alternate"  class="modal">
+			<section>
+				<h3>言語を選択してください。</h3>
+				<h3>Please select language.</h3>
+				<div class="box"></div>
+				<div class="close">
+					<button class="close-btn">もどる</button>
+				</div>
+			</section>
+		</div>
+
+		<!--卓番表示-->
+		<div id="info">
+			<div class="table"></div>
+			<div class="slip"></div>
+		</div>
+		
+		<!--卓番設定呼び出し-->
+		<!-- <div id="table-setup-btn"> -->
+			<button class="table-setup-btn btn1" data-index="1"></button>
+			<button class="table-setup-btn btn2" data-index="2"></button>
+			<button class="table-setup-btn btn3" data-index="3"></button>
+			<!-- <button class="table-setup-btn btn4" data-index="4"></button> -->
+		<!-- </div> -->
+		
+		<!--卓番設定-->
+		<div id="table-no-setup" class="modal">
+			<section>
+				<div class="box"></div>
+				<button class="set">設定</button>
+				<button class="checkin">チェックイン</button>
+			</section>
+		</div>
+
+		<!--ボリューム表示-->
+		<button id="volume-btn" class="volume volume3"></button>
+
+		<!--ボリューム設定-->
+		<div id="volume">
+			<button class="volume volume3"></button>
+			<button class="up">▲</button>
+			<button class="down">▼</button>
+		</div>
+
+
+		<!--アラート-->
+		<div id="alert" class="modal">
+			<section>
+				<h1 id="message-text">お待ちください</h1>
+				<div class="close">
+					<button class="close-btn">もどる</button>
+				</div>
+				<div class="confirm">
+					<button class="no">いいえ</button>
+					<button class="yes">はい</button>
+				</div>
+				<div class="description"></div>
+				<div class="item-list">
+					<header>
+						<span class="name">商品名</span>
+						<span class="num">数</span>
+						<span class="price">金額</span>
+					</header>
+					<ul></ul>
+					<button class="next">下へ</button>
+					<button class="prev">上へ</button>
+				</div>
+			</section>
+		</div>
+
+		<!--メッセージ-->
+		<div id="message" class="container board">
+			<h1 id="message-text">お待ちください</h1>
+			<div class="close">
+				<button class="close-btn">もどる</button>
+			</div>
+			<div class="confirm">
+				<button class="no">いいえ</button>
+				<button class="yes">はい</button>
+			</div>
+			<div class="description"></div>
+			<div class="item-list">
+				<header>
+					<span class="name">商品名</span>
+					<span class="num">数</span>
+					<span class="price">金額</span>
+				</header>
+				<ul></ul>
+			</div>
+			<button class="next">下へ</button>
+			<button class="prev">上へ</button>
+		</div>
+
+
+		<!-- スタッフコールセレクト -->
+		<div id="staffcall-select" class="modal">
+			<section>
+				<h3 class="title">ご要件を選択してください。</h3>
+				<div class="box"><ul></ul></div>
+				<button class="next">下へ</button>
+				<button class="prev">上へ</button>
+				<div class="close">
+					<button class="close-btn">もどる</button>
+				</div>
+				<div class="order">
+					<button class="order-btn">呼び出し</button>
+				</div>
+			</section>
+		</div>
+		
+		<div id="training-mode">
+			トレーニング中
+		</div>
+		
+	</div>
+	<!-- end Main -->
+
+	<!--sound-->
+	<audio src="design_cmn/skin/sound/navigate_34.mp3" id="sound1" preload="auto" class="sound"></audio>
+	<audio src="design_cmn/skin/sound/menu_select_8_.mp3" id="sound2" preload="auto" class="sound"></audio>
+	<audio src="design_cmn/skin/sound/navigate_40.mp3" id="sound3" preload="auto" class="sound"></audio>
+	<audio src="design_cmn/skin/sound/arrival.mp3" id="sound_arrival1" preload="auto" class="sound"></audio>
+	<audio src="design_cmn/skin/sound/return.mp3" id="sound_arrival2" preload="auto" class="sound"></audio>
+	<audio src="design_cmn/skin/sound/sound[0].mp3" id="sound4" preload="auto" class="sound"></audio>
+
+	<!-- img loader -->
+	<div id="image-loader-area">
+		<span class="img-loader1"></span>
+		<span class="img-loader2"></span>
+		<span class="img-loader3"></span>
+		<span class="img-loader4"></span>
+		<span class="img-loader5"></span>
+		<span class="img-loader6"></span>
+	</div>
+
+</div>
+<!-- end Page -->
+
+
+<!-- Splash -->
+<div id="splash">
+	<!-- <h2>
+		<img width="130" height="84" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIIAAABUCAYAAABOZO/PAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6Qzk0ODA5NUQzMjQ1MTFFNEE3Nzk5MEUyRDAyNTAyOUYiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6Qzk0ODA5NUUzMjQ1MTFFNEE3Nzk5MEUyRDAyNTAyOUYiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpDOTQ4MDk1QjMyNDUxMUU0QTc3OTkwRTJEMDI1MDI5RiIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpDOTQ4MDk1QzMyNDUxMUU0QTc3OTkwRTJEMDI1MDI5RiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PolnanwAAA+0SURBVHja7F0JcFXV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" alt="">	
+		<span>ASKA-T3 co.,ltd. SuperFine</span>
+	</h2> -->
+	<h2><span>メニュー準備中</span></h2>
+</div>
+
+
+<div id="debug">
+	<button onclick='doCheckin("A100","8541","3","1","000","01","    ","null","0","0");'>チェックイン</button>
+	<input type="text" id="modechange" placeholder="モードID"  style="width:50px; vertical-align:middle;" />
+	<input type="text" id="menuend" placeholder="終了時刻" style="width:50px; vertical-align:middle;" />
+	<button onclick='doCheckin("88","8541","3","0","000",document.getElementById("modechange").value,document.getElementById("menuend").value,"null","0","0");'>モード切替</button>
+	<button onclick='doCheckin("A100","8541","3","1","000","01","    ","1","0","0");'>モード終了</button>
+	<button onclick='doCheckin("88","","3","0","000","02","null","NaN","0","0");'>チェックアウト</button>
+	<button onclick='doCheckin("","","3","0","000","01","null","NaN","0","1");'>卓番設定</button>
+	<button onclick='doCheckin("A100","","3","2","000","01","null","NaN","0","0");'>トレーニングモード</button>
+	<br />
+	<button onclick='doCheckStock("11","875","369","367","368");'>品切れ</button>
+	<button onclick='doCheckin("A100","8541","3","1","100","01","    ","null","0","0");'>フードオーダーストップ</button>
+	<button onclick='doCheckin("A100","8541","3","1","010","01","    ","null","0","0");'>ドリンクオーダーストップ</button>
+	<button onclick='doCheckin("A100","8541","3","1","110","01","    ","null","0","0");'>フードドリンクオーダーストップ</button>
+	<button onclick='doCheckin("A100","8541","3","1","001","01","    ","null","0","0");'>コンテンツオーダーストップ</button>
+	<button onclick='doCheckin("A100","8541","3","1","111","01","    ","null","0","0");'>全オーダーストップ</button>
+	<br />
+	<button onclick='doLocalMsg("lock");'>利用停止</button>
+	<button onclick='doLocalMsg("unlock");'>利用再開</button>
+	<button onclick='doLocalMsg("order_lock");'>オーダーロック</button>
+	<button onclick='doLocalMsg("order_unlock");'>オーダーロック解除</button>
+	<br />
+	<button onclick='doUpdateMst("0");'>メニュー更新通知</button>
+	<button onclick='doUpdateMst("1");'>メニュー更新</button>
+	<br />
+	<button onclick='doLocalMsg("arrival:item1=3,1");'>到着案内</button>
+	<button onclick='doLocalMsg("rl_moving:item1=313,1");'>RL到着案内</button>
+	<button onclick='doLocalMsg("rl_arrived:item1=313,1");'>RL返却案内</button>
+	<button onclick='doLocalMsg("rl_clear");'>返却</button>
+	<button onclick='doMsg("1時からタイムセールです！");'>店舗メッセージ</button>
+	<button onclick='doLocalMsg("いらっしゃいませ小林さま");'>卓指定メッセージ</button>
+	<br />
+	<input type="text" id="batt" value="100" style="width:50px; vertical-align:middle;" />
+	<button onclick='notifyBattStat("",document.getElementById("batt").value,"","")'>バッテリー</button>
+	<button onclick='notifyBattStat("1",document.getElementById("batt").value,"","")'>AC電源</button>
+	<input type="text" id="wlan" value="3" style="width:50px; vertical-align:middle;" />
+	<button onclick='notifyWlanStat(document.getElementById("wlan").value)'>無線</button>
+	<br />
+	<input type="text" id="eparkid" style="width:50px; vertical-align:middle;" />
+	<button onclick='eparklogininfo("","",document.getElementById("eparkid").value,"","")'>EparkID</button>
+	<input type="text" id="qr_result" style="width:50px; vertical-align:middle;" />
+	<button onclick='resultQRData(document.getElementById("qr_result").value)'>QRReader</button>
+</div>
+
+</body>
+</html>

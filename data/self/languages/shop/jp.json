@@ -1,0 +1,19 @@
+{
+	"name": "jp",
+	"#largecart .order button.order-btn":"注文確定",
+	"#largecart .close.close2 .close-btn":"続けて<br>注文する",
+	"#welcome-text":"",
+	"#largecart .title":"こちらのご注文内容でよろしいでしょうか？",
+	"#message .close-btn":"OK",
+	"#payment #payment-select .select #pay-qr":"ただいま準備中",
+	"messages": {
+		"category_alert_001": {
+			"msg": "「上地自動車学校食事券」を押した後、<br>「続けて注文する」より商品選択を行ってください。<br><br>セルフレジにてお会計をお願いします。<br><br>商品お渡し時「お食事券」と引き換えに500円<br>返金いたします。",
+			"action": "1"
+		},
+		"order_complete":{ "msg":"注文を受け付けました。<br>ありがとうございます。<br><br>精算機にてQRコードをかざし<br>お会計をお済ませください。", "action":"-1" },
+		"order_complete2":{ "msg":"注文を受け付けました。<br>ありがとうございます。<br><br>精算機にてQRコードをかざし<br>お会計をお済ませください。", "action":"-1" },
+		"order_complete_chash":{ "msg":"精算機にてQRコードをかざし<br>お会計をお済ませください。", "action":"1" },
+		"6100":{ "msg":"お支払いが完了しました。<br><br>番号でお呼びだしさせて頂きます。<br>商品が出来上がるまでしばらくお待ちください。", "action":"-1" }
+	}
+}

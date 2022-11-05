@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root id="soundlist" version="1.0">
+	<soundlist>
+	    <sound id="sound1" name="navigate_34.mp3"/>
+	    <sound id="sound2" name="menu_select_8_.mp3"/>
+	    <sound id="sound3" name="navigate_40.mp3"/>
+	    <sound id="sound4" name="sound[0].mp3"/>
+	    <sound id="welcome" name="welcome.mp3"/>
+	    <sound id="sound_arrival1" name="arrival.mp3"/>
+	    <sound id="sound_arrival2" name="return.mp3"/>
+   </soundlist>
+</root>

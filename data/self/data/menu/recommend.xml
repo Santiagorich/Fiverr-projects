@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root id="recommend" version="1.0">
+	<item id="1" text="ご一緒にセットはいかがですか？" dummyname="次へ" modes="01" type="set" name="">
+			<usemenucode code="1"/>
+			<usemenucode code="2"/>
+			<usemenucode code="3"/>
+			<usemenucode code="4"/>
+			<usemenucode code="5"/>
+			<usemenucode code="6"/>
+			<usemenucode code="7"/>
+			<usemenucode code="8"/>
+			<detailmenucode step="1" code="9" dummyname="次へ" text="ご一緒にセットはいかがですか？" selecttype="toggle" single="false"/>
+			<detailmenucode step="1" code="10" dummyname="次へ" text="ご一緒にセットはいかがですか？" selecttype="toggle" single="false"/>
+			<detailmenucode step="1" code="11" dummyname="次へ" text="ご一緒にセットはいかがですか？" selecttype="toggle" single="false"/>
+	</item>
+</root>

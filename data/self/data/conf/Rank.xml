@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<rank>
+		<item id="1" name="ダイヤモンド" epark_id="ダイヤモンド" class="diamond"/>
+		<item id="2" name="ゴールド" epark_id="ゴールド" class="gold"/>
+		<item id="3" name="シルバー" epark_id="シルバー" class="silver"/>
+		<item id="4" name="プラチナ" epark_id="プラチナ" class="platinum"/>
+		<item id="5" name="ブロンズ" epark_id="ブロンズ" class="bronze"/>
+		<item id="6" name="制限なし" epark_id="none"/>
+	</rank>
+	<sex>
+		<item id="7" name="男性" epark_id="0" class="male" />
+		<item id="8" name="女性" epark_id="1"  class="female" />
+		<item id="9" name="制限なし" epark_id="none"/>
+	</sex>
+</root>

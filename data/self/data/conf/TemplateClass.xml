@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TemplateClass>
+	<item id="000" name="設定なし" value="no" />
+	<item id="001" name="パネル濃い" value="dark" />
+	<item id="002" name="パネル薄い" value="light" />
+	<item id="003" name="パネル黒" value="black" />
+	<item id="004" name="パネル茶色" value="brown" />
+	<item id="005" name="文字大きく（※全角7文字まで。ｺﾒﾝﾄ等削除）" value="big" />
+	<item id="006" name="値段非表示" value="noprice" />
+	<item id="007" name="パネル濃＆文字大" value="dark big" />
+	<item id="008" name="パネル薄＆文字大" value="light big" />
+	<item id="009" name="パネル黒＆文字大" value="black big" />
+	<item id="010" name="パネル茶＆文字大" value="brown big" />
+	<item id="011" name="パネル濃＆値段非表示" value="dark noprice" />
+	<item id="012" name="パネル薄＆値段非表示" value="light noprice" />
+	<item id="013" name="パネル黒＆値段非表示" value="black noprice" />
+	<item id="014" name="パネル茶＆値段非表示" value="brown noprice" />
+	<item id="015" name="文字大＆値段非表示" value="big noprice" />
+	<item id="016" name="パネル濃＆文字大＆値段非表示" value="dark big noprice" />
+	<item id="017" name="パネル薄＆文字大＆値段非表示" value="light big noprice" />
+	<item id="018" name="パネル黒＆文字大＆値段非表示" value="black big noprice" />
+	<item id="019" name="パネル茶＆文字大＆値段非表示" value="brown big noprice" />
+	<item id="100" name="テキスト非表示" value="no_text" />
+	<item id="101" name="テキスト非表示・画像非表示" value="no_text no_image" />
+	<item id="102" name="商品背景なし" value="no_bg" />
+	<item id="103" name="商品背景なしテキスト非表示" value="no_bg no_text no_image" />
+	<item id="110" name="小カテなし テキスト非表示" value="custom1 no_text" />
+	<item id="114" name="小カテなし 文字大" value="custom1 big" />
+	<item id="111" name="小カテなし テキスト非表示 画像非表示" value="custom1 no_text no_image" />
+	<item id="112" name="中カテなし テキスト非表示" value="custom2 no_text" />
+	<item id="113" name="中カテなし テキスト非表示 画像非表示" value="custom2 no_text no_image" />
+	<item id="115" name="中カテなし 文字大" value="custom2 big" />
+</TemplateClass>

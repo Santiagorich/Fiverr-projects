@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<root id="request_checkout">
+	<status code="0" />
+</root>
+
+<!--
+<root id="error">
+	<error code="1001" />
+</root>
+-->

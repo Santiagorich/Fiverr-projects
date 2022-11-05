@@ -1,0 +1,31 @@
+@charset "UTF-8";
+
+/**
+ * フォントを読み込むfont.css
+ */
+
+@font-face {
+  font-family: 'AFont';
+  src: local("あおぞら明朝 Bold"), url(../fonts/AozoraMincho-bold.ttf) format("truetype");
+}
+
+body {
+  font-family: 'AFont' !important;
+}
+body button {
+  font-family: 'AFont' !important;
+  font-weight: inherit;
+}
+body.en, body.ko, body.ch, body.ch_tw {
+  font-family: 'Droid Sans Fallback' !important;
+  word-break: normal;
+}
+body.en *, body.ko *, body.ch *, body.ch_tw * {
+  line-height: 1em !important;
+}
+body.en button, body.ko button, body.ch button, body.ch_tw button {
+  font-family: 'Droid Sans Fallback' !important;
+}
+body.en .item-list, body.ko .item-list, body.ch .item-list, body.ch_tw .item-list {
+  word-break: break-all;
+}

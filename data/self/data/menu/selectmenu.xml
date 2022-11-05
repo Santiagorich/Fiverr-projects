@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root id="selectmenu" version="1.0">
+	<select>
+		<group code="0011" type="000" text_1="下記よりお選び下さい" text_2="下記よりお選び下さい" alt_text_1="" alt_text_2="">
+			<item id="30" check="1" type="1" name_1="ふつう" name_2="" alt_name_1="" alt_name_2="" show_pic="0" GroupCDSub="00101"/>
+			<item id="31" check="1" type="1" name_1="バリカタ" name_2="" alt_name_1="" alt_name_2="" show_pic="0" GroupCDSub="00102"/>
+			<item id="32" check="1" type="1" name_1="カタ" name_2="" alt_name_1="" alt_name_2="" show_pic="0" GroupCDSub="00103"/>
+			<item id="33" check="1" type="1" name_1="やわ" name_2="" alt_name_1="" alt_name_2="" show_pic="0" GroupCDSub="00104"/>
+			</group>
+		<group code="0021" type="000" text_1="下記よりお選び下さい" text_2="下記よりお選び下さい" alt_text_1="" alt_text_2="">
+			<item id="34" check="1" type="1" name_1="ねぎ抜き" name_2="" alt_name_1="" alt_name_2="" show_pic="0" GroupCDSub="00201"/>
+			</group>
+		<group code="0031" type="001" text_1="下記よりお選び下さい" text_2="下記よりお選び下さい" alt_text_1="" alt_text_2="">
+			<item id="35" check="1" type="1" name_1="並ごはん" name_2="" alt_name_1="" alt_name_2="" show_pic="0" GroupCDSub="00301"/>
+			<item id="36" check="1" type="1" name_1="大ごはん" name_2="" alt_name_1="" alt_name_2="" show_pic="0" GroupCDSub="00302"/>
+			</group>
+		<group code="0041" type="001" text_1="下記よりお選び下さい" text_2="下記よりお選び下さい" alt_text_1="" alt_text_2="">
+			<item id="37" check="1" type="1" name_1="グラス" name_2="" alt_name_1="" alt_name_2="" show_pic="0" GroupCDSub="00401"/>
+			</group>
+		<group code="D0011" type="002" text_1="下記よりお選び下さい" text_2="下記よりお選び下さい" alt_text_1="" alt_text_2="">
+			<item id="30" check="1" type="1" name_1="ふつう" name_2="" alt_name_1="" alt_name_2="" show_pic="0" GroupCDSub="00101"/>
+			<item id="31" check="1" type="1" name_1="バリカタ" name_2="" alt_name_1="" alt_name_2="" show_pic="0" GroupCDSub="00102"/>
+			<item id="32" check="1" type="1" name_1="カタ" name_2="" alt_name_1="" alt_name_2="" show_pic="0" GroupCDSub="00103"/>
+			<item id="33" check="1" type="1" name_1="やわ" name_2="" alt_name_1="" alt_name_2="" show_pic="0" GroupCDSub="00104"/>
+			<item id="34" check="1" type="2" name_1="ねぎ抜き" name_2="" alt_name_1="" alt_name_2="" show_pic="0" GroupCDSub="00201"/>
+			</group>
+	</select>
+</root>

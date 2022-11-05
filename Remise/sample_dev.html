@@ -1,0 +1,1086 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Sample</title>
+    <script type="text/javascript" src="./RemiseApm-1.0.4.js"></script>
+    <script type="text/javascript">
+
+        var remiseApm = new remise.ApmDriver();
+
+        // イベント設定
+        window.onload = function(){
+
+            // 請求番号自動採番クリック
+            document.getElementById("autoOrder").addEventListener('click', switchAutoOrder, false);
+
+            // 各ボタンクリック
+            var ipts = document.getElementsByTagName('input');
+            for (var i = 0; i < ipts.length; i++) {
+                if (ipts[i].type != "button") continue;
+                ipts[i].addEventListener('click', function(){callTerminal(this);}, false);
+            }
+
+            // 請求番号自動採番モード
+            document.getElementById("autoOrder").checked = true;
+            switchAutoOrder();
+        };
+
+        // ボタンクリック
+        function callTerminal(obj) {
+            var typeName = obj.id;
+
+            // 処理中画面表示
+            waitscreen();
+            document.getElementById("message").innerHTML = "";
+
+            // 決済端末連携処理初期設定
+            var connectionSetting = {
+                HttpAddress: document.getElementById("ipaddress").value,    // 接続先アドレス
+                HttpTimeout: document.getElementById("timeout").value,      // タイムアウト
+                PollingTime: document.getElementById("polling").value,      // ポーリング時間
+                UseSSL: document.getElementById("usessl").checked           // SSL利用有無
+            };
+            remiseApm.SetConnectionSetting(
+                connectionSetting,                  // 設定情報
+                remiseApmTerminalResult,            // 決済端末処理結果イベント
+                remiseApmCancelErrorResult,         // 中断エラーイベント
+                remiseApmTerminalProcessingStatus   // 端末処理状況イベント
+            );
+
+            // 決済端末連携処理パラメータ生成
+            var paymentParameter = {
+                OrderId: getOrderId(),          // 請求番号
+                JobType: getJobType(),          // 処理区分
+                Amount: getAmount(),            // 決済金額
+                MachineCode: getMachineCode(),  // 精算機コード
+                CanTranId: getCanTranId(),      // 取消対象トランザクションID
+                IsOffline: isOffline(),         // オフラインモード
+                TranId: getTranId(),            // トランザクションID
+                JobId: getJobId()               // ジョブID
+            };
+
+            switch (typeName) {
+                // カード決済アプリ導入確認
+                case "PAYMENT_TYPE_CARD_APP_INSTALL_CHECK":
+                    paymentParameter.PaymentType = remiseApm.PAYMENT_TYPE_CARD_APP_INSTALL_CHECK;
+                    break;
+                // カード決済
+                case "PAYMENT_TYPE_CARD":
+                    paymentParameter.PaymentType = remiseApm.PAYMENT_TYPE_CARD;
+                    break;
+                // カード決済中断
+                case "PAYMENT_TYPE_CARD_CANCEL":
+                    paymentParameter.PaymentType = remiseApm.PAYMENT_TYPE_CARD_CANCEL;
+                    break;
+                // カード決済状況確認
+                case "PAYMENT_TYPE_CARD_TRAN_CHECK":
+                    paymentParameter.PaymentType = remiseApm.PAYMENT_TYPE_CARD_TRAN_CHECK;
+                    break;
+
+                // コード決済アプリ導入確認
+                case "PAYMENT_TYPE_QR_APP_INSTALL_CHECK":
+                    paymentParameter.PaymentType = remiseApm.PAYMENT_TYPE_QR_APP_INSTALL_CHECK;
+                    break;
+                // コード決済
+                case "PAYMENT_TYPE_QR":
+                    paymentParameter.PaymentType = remiseApm.PAYMENT_TYPE_QR;
+                    break;
+                // コード決済中断
+                case "PAYMENT_TYPE_QR_CANCEL":
+                    paymentParameter.PaymentType = remiseApm.PAYMENT_TYPE_QR_CANCEL;
+                    break;
+                // コード決済状況確認
+                case "PAYMENT_TYPE_QR_TRAN_CHECK":
+                    paymentParameter.PaymentType = remiseApm.PAYMENT_TYPE_QR_TRAN_CHECK;
+                    break;
+
+                // 電子マネー決済アプリ導入確認
+                case "PAYMENT_TYPE_EMONEY_APP_INSTALL_CHECK":
+                    paymentParameter.PaymentType = remiseApm.PAYMENT_TYPE_EMONEY_APP_INSTALL_CHECK;
+                    break;
+                // 電子マネー決済
+                case "PAYMENT_TYPE_EMONEY":
+                    paymentParameter.PaymentType = remiseApm.PAYMENT_TYPE_EMONEY;
+                    break;
+                // 電子マネー決済中断
+                case "PAYMENT_TYPE_EMONEY_CANCEL":
+                    paymentParameter.PaymentType = remiseApm.PAYMENT_TYPE_EMONEY_CANCEL;
+                    break;
+                // 電子マネー決済状況確認
+                case "PAYMENT_TYPE_EMONEY_TRAN_CHECK":
+                    paymentParameter.PaymentType = remiseApm.PAYMENT_TYPE_EMONEY_TRAN_CHECK;
+                    break;
+                
+                // ポイントカード読取アプリ導入確認
+                case "PAYMENT_TYPE_POINT_APP_INSTALL_CHECK":
+                    paymentParameter.PaymentType = remiseApm.PAYMENT_TYPE_POINT_APP_INSTALL_CHECK;
+                    break;
+                // ポイントカード読取
+                case "PAYMENT_TYPE_POINT":
+                    paymentParameter.PaymentType = remiseApm.PAYMENT_TYPE_POINT;
+                    break;
+                // ポイントカード読取中断
+                case "PAYMENT_TYPE_POINT_CANCEL":
+                    paymentParameter.PaymentType = remiseApm.PAYMENT_TYPE_POINT_CANCEL;
+                    break;
+
+                // 疎通確認
+                case "PAYMENT_TYPE_TERMINAL_STATUS_CHECK":
+                    paymentParameter.PaymentType = remiseApm.PAYMENT_TYPE_TERMINAL_STATUS_CHECK;
+                    break;
+                // 支払方法選択
+                case "PAYMENT_TYPE_TERMINAL":
+                    paymentParameter.PaymentType = remiseApm.PAYMENT_TYPE_TERMINAL;
+                    break;
+                // 支払方法選択中断
+                case "PAYMENT_TYPE_TERMINAL_CANCEL":
+                    paymentParameter.PaymentType = remiseApm.PAYMENT_TYPE_TERMINAL_CANCEL;
+                    break;
+
+                // アプリ起動状況確認
+                case "PAYMENT_TYPE_TERMINAL_APP_CHECK":
+                    paymentParameter.PaymentType = remiseApm.PAYMENT_TYPE_TERMINAL_APP_CHECK;
+                    break;
+
+                // HTTP通信稼働確認
+                case "PAYMENT_TYPE_CONNETION_CHECK":
+                    paymentParameter.PaymentType = remiseApm.PAYMENT_TYPE_CONNETION_CHECK;
+                    break;
+
+                // 端末再起動
+                case "PAYMENT_TYPE_TERMINAL_RESTART":
+                    paymentParameter.PaymentType = remiseApm.PAYMENT_TYPE_TERMINAL_RESTART;
+                    break;
+
+                // 日計処理
+                case "PAYMENT_TYPE_DAILY_TOTAL":
+                    paymentParameter.PaymentType = remiseApm.PAYMENT_TYPE_DAILY_TOTAL;
+                    break;
+
+                // 取引異常検知解除
+                case "PAYMENT_TYPE_ABNORMAL_UNLOCK":
+                    paymentParameter.PaymentType = remiseApm.PAYMENT_TYPE_ABNORMAL_UNLOCK;
+                    break;
+
+                default:
+                    break;
+            }
+
+            // 決済端末連携処理
+            remiseApm.CallTerminal(paymentParameter);
+        }
+
+
+        // 決済端末処理結果イベント
+        function remiseApmTerminalResult(result) {
+            var message = "";
+            var addMessage = "";
+            switch (result.Status) {
+                case remiseApm.RESULT_STATUS_SUCCESS:
+
+                    switch (result.PaymentType) {
+                        // 疎通確認
+                        case remiseApm.PAYMENT_TYPE_TERMINAL_STATUS_CHECK:
+                            message = "サーバーとの通信が可能です。";
+                            break;
+                        // カード決済導入確認
+                        case remiseApm.PAYMENT_TYPE_CARD_APP_INSTALL_CHECK:
+                            message = "カード決済アプリは利用可能です。";
+                            break;
+                        // コード決済導入確認
+                        case remiseApm.PAYMENT_TYPE_QR_APP_INSTALL_CHECK:
+                            message = "コード決済アプリは利用可能です。";
+                            break;
+                        // 電子マネー決済導入確認
+                        case remiseApm.PAYMENT_TYPE_EMONEY_APP_INSTALL_CHECK:
+                            message = "電子マネー決済アプリは利用可能です。";
+                            break;
+                        // ポイントカード読取導入確認
+                        case remiseApm.PAYMENT_TYPE_POINT_APP_INSTALL_CHECK:
+                            message = "ポイントカード読取アプリは利用可能です。";
+                            break;
+
+                        // カード決済アプリ起動
+                        case remiseApm.PAYMENT_TYPE_CARD:
+                            message = "カード決済処理を開始しました。";
+                            break;
+                        // コード決済アプリ起動
+                        case remiseApm.PAYMENT_TYPE_QR:
+                            message = "コード決済処理を開始しました。";
+                            break;
+                        // 電子マネー決済アプリ起動
+                        case remiseApm.PAYMENT_TYPE_EMONEY:
+                            message = "電子マネー決済処理を開始しました。";
+                            break;
+                        // ポイントカード読取アプリ起動
+                        case remiseApm.PAYMENT_TYPE_POINT:
+                            message = "ポイントカード読み取り処理を開始しました。";
+                            break;
+                        // 支払方法選択アプリ起動
+                        case remiseApm.PAYMENT_TYPE_TERMINAL:
+                            message = "決済処理を開始しました。";
+                            break;
+
+                        // カード決済結果
+                        case remiseApm.PAYMENT_TYPE_CARD_RESULT:
+                            message = "カード決済処理が完了しました。";
+                            if (result.CardResult) {
+                                addMessage = "<br>"
+                                           + "CardType="        + result.CardResult.CardType        + "<br>"
+                                           + "OrderId="         + result.CardResult.OrderId         + "<br>"
+                                           + "TranId="          + result.CardResult.TranId          + "<br>"
+                                           + "Card="            + result.CardResult.Card            + "<br>"
+                                           + "Expire="          + result.CardResult.Expire          + "<br>"
+                                           + "RefApproved="     + result.CardResult.RefApproved     + "<br>"
+                                           + "RefForwarded="    + result.CardResult.RefForwarded    + "<br>"
+                                           + "RefCardbrand="    + result.CardResult.RefCardbrand    + "<br>"
+                                           + "ArpcInfo="        + result.CardResult.ArpcInfo        + "<br>"
+                                           + "ErrCode="         + result.CardResult.ErrCode         + "<br>"
+                                           + "ErrInfo="         + result.CardResult.ErrInfo         + "<br>"
+                                           + "ErrLevel="        + result.CardResult.ErrLevel        + "<br>"
+                                           + "Result="          + result.CardResult.Result          + "<br>"
+                                           + "RefGatewayNo="    + result.CardResult.RefGatewayNo    + "<br>"
+                                           + "Datetime="        + result.CardResult.Datetime        + "<br>"
+                                           + "MemberId="        + result.CardResult.MemberId        + "<br>"
+                                           + "JobId="           + result.CardResult.JobId           + "<br>"
+                                           + "PayquickId="      + result.CardResult.PayquickId      + "<br>"
+                                           + "Aid="             + result.CardResult.Aid             + "<br>"
+                                           + "AppLabel="        + result.CardResult.AppLabel        + "<br>"
+                                           + "CardSequenceNo="  + result.CardResult.CardSequenceNo  + "<br>"
+                                           + "Atc="             + result.CardResult.Atc             + "<br>"
+                                           + "Arc="             + result.CardResult.Arc             + "<br>"
+                                           + "Spid="            + result.CardResult.Spid            + "<br>"
+                                           + "Tc="              + result.CardResult.Tc              + "<br>"
+                                           + "PinErrInfo="      + result.CardResult.PinErrInfo      + "<br>";
+                            }
+                            break;
+
+                        // コード決済結果
+                        case remiseApm.PAYMENT_TYPE_QR_RESULT:
+                            message = "コード決済処理が完了しました。";
+                            if (result.QRResult) {
+                                addMessage = "<br>"
+                                           + "JobId="           + result.QRResult.JobId             + "<br>"
+                                           + "OrderId="         + result.QRResult.OrderId           + "<br>"
+                                           + "Job="             + result.QRResult.Job               + "<br>"
+                                           + "RCode="           + result.QRResult.RCode             + "<br>"
+                                           + "ErrInfo="         + result.QRResult.ErrInfo           + "<br>"
+                                           + "Cny="             + result.QRResult.Cny               + "<br>"
+                                           + "Gatewayno="       + result.QRResult.Gatewayno         + "<br>"
+                                           + "CenDate="         + result.QRResult.CenDate           + "<br>"
+                                           + "TransStatus="     + result.QRResult.TransStatus       + "<br>"
+                                           + "Payee="           + result.QRResult.Payee             + "<br>"
+                                           + "PayName="         + result.QRResult.PayName           + "<br>";
+                            }
+                            break;
+
+                        // 電子マネー決済結果
+                        case remiseApm.PAYMENT_TYPE_EMONEY_RESULT:
+                            message = "電子マネー決済処理が完了しました。";
+                            addMessage = "<br>";
+                            break;
+
+                        // ポイントカード読み取り結果
+                        case remiseApm.PAYMENT_TYPE_POINT_RESULT:
+                            message = "ポイントカード読み取り処理が完了しました。";
+                            addMessage = "<br>"
+                                        + "Result="         + result.PointResult.Result         + "<br>"
+                                        + "Jis2Data="       + result.PointResult.Jis2Data       + "<br>"
+                                        + "FormatGroupId="  + result.PointResult.FormatGroupId  + "<br>"
+                                        + "FormatName="     + result.PointResult.FormatName     + "<br>"
+                                        + "ConvFlg="        + result.PointResult.ConvFlg        + "<br>"
+                                        + "Other1="         + result.PointResult.Other1         + "<br>"
+                                        + "Other2="         + result.PointResult.Other2         + "<br>"
+                                        + "Other3="         + result.PointResult.Other3         + "<br>"
+                                        + "<br>";
+                            break;
+
+                        // 支払方法選択結果
+                        case remiseApm.PAYMENT_TYPE_TERMINAL_RESULT:
+                            message = "決済処理が完了しました。";
+                            // カード決済
+                            if (result.Method == "01" && result.CardResult) {
+                                addMessage = "<br>"
+                                           + "CardType="        + result.CardResult.CardType        + "<br>"
+                                           + "OrderId="         + result.CardResult.OrderId         + "<br>"
+                                           + "TranId="          + result.CardResult.TranId          + "<br>"
+                                           + "Card="            + result.CardResult.Card            + "<br>"
+                                           + "Expire="          + result.CardResult.Expire          + "<br>"
+                                           + "RefApproved="     + result.CardResult.RefApproved     + "<br>"
+                                           + "RefForwarded="    + result.CardResult.RefForwarded    + "<br>"
+                                           + "RefCardbrand="    + result.CardResult.RefCardbrand    + "<br>"
+                                           + "ArpcInfo="        + result.CardResult.ArpcInfo        + "<br>"
+                                           + "ErrCode="         + result.CardResult.ErrCode         + "<br>"
+                                           + "ErrInfo="         + result.CardResult.ErrInfo         + "<br>"
+                                           + "ErrLevel="        + result.CardResult.ErrLevel        + "<br>"
+                                           + "Result="          + result.CardResult.Result          + "<br>"
+                                           + "RefGatewayNo="    + result.CardResult.RefGatewayNo    + "<br>"
+                                           + "Datetime="        + result.CardResult.Datetime        + "<br>"
+                                           + "MemberId="        + result.CardResult.MemberId        + "<br>"
+                                           + "JobId="           + result.CardResult.JobId           + "<br>"
+                                           + "PayquickId="      + result.CardResult.PayquickId      + "<br>"
+                                           + "Aid="             + result.CardResult.Aid             + "<br>"
+                                           + "AppLabel="        + result.CardResult.AppLabel        + "<br>"
+                                           + "CardSequenceNo="  + result.CardResult.CardSequenceNo  + "<br>"
+                                           + "Atc="             + result.CardResult.Atc             + "<br>"
+                                           + "Arc="             + result.CardResult.Arc             + "<br>"
+                                           + "Spid="            + result.CardResult.Spid            + "<br>"
+                                           + "Tc="              + result.CardResult.Tc              + "<br>"
+                                           + "PinErrInfo="      + result.CardResult.PinErrInfo      + "<br>";
+                            }
+                            // コード決済
+                            else if (result.Method == "02" && result.QRResult) {
+                                addMessage = "<br>"
+                                           + "JobId="           + result.QRResult.JobId             + "<br>"
+                                           + "OrderId="         + result.QRResult.OrderId           + "<br>"
+                                           + "Job="             + result.QRResult.Job               + "<br>"
+                                           + "RCode="           + result.QRResult.RCode             + "<br>"
+                                           + "ErrInfo="         + result.QRResult.ErrInfo           + "<br>"
+                                           + "Cny="             + result.QRResult.Cny               + "<br>"
+                                           + "Gatewayno="       + result.QRResult.Gatewayno         + "<br>"
+                                           + "CenDate="         + result.QRResult.CenDate           + "<br>"
+                                           + "TransStatus="     + result.QRResult.TransStatus       + "<br>"
+                                           + "Payee="           + result.QRResult.Payee             + "<br>"
+                                           + "PayName="         + result.QRResult.PayName           + "<br>";
+                            }
+                            // 電子マネー決済
+                            else if (result.Method == "03") {
+                            }
+                            break;
+
+                        // アプリ起動状況確認
+                        case remiseApm.PAYMENT_TYPE_TERMINAL_APP_CHECK:
+                            message = "アプリの起動状況は以下の通りです。";
+                            addMessage = "<br>"
+                                       + "カード決済="      + result.CardAppRunning     + "<br>"
+                                       + "コード決済="      + result.QrAppRunning       + "<br>"
+                                       + "電子マネー決済="  + result.EMoneyAppRunning   + "<br>"
+                                       + "支払方法選択="    + result.TerminalAppRunning + "<br>"
+                                       + "電子マネー決済(待機画面)="    + result.EMoneyAppFrontRunning + "<br>";
+                            break;
+
+                        // カード決済状況確認
+                        case remiseApm.PAYMENT_TYPE_CARD_TRAN_CHECK:
+                            message = "カード決済状況は以下の通りです。";
+                            if (result.CardTranCheckResult) {
+                                addMessage = "<br>"
+                                           + "OrderId="         + result.CardTranCheckResult.OrderId        + "<br>"
+                                           + "TranId="          + result.CardTranCheckResult.TranId         + "<br>"
+                                           + "Card="            + result.CardTranCheckResult.Card           + "<br>"
+                                           + "Expire="          + result.CardTranCheckResult.Expire         + "<br>"
+                                           + "RefApproved="     + result.CardTranCheckResult.RefApproved    + "<br>"
+                                           + "RefForwarded="    + result.CardTranCheckResult.RefForwarded   + "<br>"
+                                           + "RefCardbrand="    + result.CardTranCheckResult.RefCardbrand   + "<br>"
+                                           + "ErrCode="         + result.CardTranCheckResult.ErrCode        + "<br>"
+                                           + "ErrInfo="         + result.CardTranCheckResult.ErrInfo        + "<br>"
+                                           + "ErrLevel="        + result.CardTranCheckResult.ErrLevel       + "<br>"
+                                           + "Result="          + result.CardTranCheckResult.Result         + "<br>"
+                                           + "TranFlg="         + result.CardTranCheckResult.TranFlg        + "<br>"
+                                           + "RefGatewayNo="    + result.CardTranCheckResult.RefGatewayNo   + "<br>"
+                                           + "Datetime="        + result.CardTranCheckResult.Datetime       + "<br>"
+                                           + "MemberId="        + result.CardTranCheckResult.MemberId       + "<br>"
+                                           + "Yflg="            + result.CardTranCheckResult.Yflg           + "<br>"
+                                           + "Aid="             + result.CardTranCheckResult.Aid            + "<br>"
+                                           + "AppLabel="        + result.CardTranCheckResult.AppLabel       + "<br>"
+                                           + "CardSequenceNo="  + result.CardTranCheckResult.CardSequenceNo + "<br>"
+                                           + "JobId="           + result.CardTranCheckResult.JobId          + "<br>"
+                                           + "Atc="             + result.CardTranCheckResult.Atc            + "<br>"
+                                           + "Arc="             + result.CardTranCheckResult.Arc            + "<br>"
+                                           + "Spid="            + result.CardTranCheckResult.Spid           + "<br>"
+                                           + "CupSendDate="     + result.CardTranCheckResult.CupSendDate    + "<br>"
+                                           + "CupSequence="     + result.CardTranCheckResult.CupSequence    + "<br>"
+                                           + "CupMarchantId="   + result.CardTranCheckResult.CupMarchantId  + "<br>"
+                                           + "Tc="              + result.CardTranCheckResult.Tc             + "<br>";
+                            }
+                            break;
+
+                        // コード決済状況確認
+                        case remiseApm.PAYMENT_TYPE_QR_TRAN_CHECK:
+                            message = "コード決済状況は以下の通りです。";
+                            if (result.QRTranCheckResult) {
+                                addMessage = "<br>"
+                                           + "JobId="           + result.QRTranCheckResult.JobId            + "<br>"
+                                           + "RCode="           + result.QRTranCheckResult.RCode            + "<br>"
+                                           + "OrderId="         + result.QRTranCheckResult.OrderId          + "<br>"
+                                           + "RTotal="          + result.QRTranCheckResult.RTotal           + "<br>"
+                                           + "RPayee="          + result.QRTranCheckResult.RPayee           + "<br>"
+                                           + "RecFlg="          + result.QRTranCheckResult.RecFlg           + "<br>"
+                                           + "RecDate="         + result.QRTranCheckResult.RecDate          + "<br>"
+                                           + "DecisionFlg="     + result.QRTranCheckResult.DecisionFlg      + "<br>"
+                                           + "DecisionDate="    + result.QRTranCheckResult.DecisionDate     + "<br>"
+                                           + "CanFlg="          + result.QRTranCheckResult.CanFlg           + "<br>"
+                                           + "CanDate="         + result.QRTranCheckResult.CanDate          + "<br>"
+                                           + "TransStatus="     + result.QRTranCheckResult.TransStatus      + "<br>";
+                            }
+                            break;
+
+                        // 電子マネー決済状況確認
+                        case remiseApm.PAYMENT_TYPE_EMONEY_TRAN_CHECK:
+                            message = "電子マネー決済状況は以下の通りです。";
+                            if (result.EMoneyTranCheckResult) {
+                                addMessage = "<br>"
+                                           + "JobId="           + result.EMoneyTranCheckResult.JobId            + "<br>"
+                                           + "RCode="           + result.EMoneyTranCheckResult.RCode            + "<br>"
+                                           + "OrderId="         + result.EMoneyTranCheckResult.OrderId          + "<br>"
+                                           + "RTotal="          + result.EMoneyTranCheckResult.RTotal           + "<br>"
+                                           + "RecFlg="          + result.EMoneyTranCheckResult.RecFlg           + "<br>"
+                                           + "RecDate="         + result.EMoneyTranCheckResult.RecDate          + "<br>"
+                                           + "DecisionFlg="     + result.EMoneyTranCheckResult.DecisionFlg      + "<br>"
+                                           + "DecisionDate="    + result.EMoneyTranCheckResult.DecisionDate     + "<br>"
+                                           + "AppResult="       + result.EMoneyTranCheckResult.AppResult        + "<br>";
+                            }
+                            break;
+                        
+                        // 疎通確認
+                        case remiseApm.PAYMENT_TYPE_CONNETION_CHECK:
+                            message = "端末との通信が可能です。";
+                            break;
+
+                        // 疎通確認
+                        case remiseApm.PAYMENT_TYPE_TERMINAL_RESTART:
+                            message = "端末再起動が開始されました。";
+                            break;
+                            
+                        // 日計処理実行
+                        case remiseApm.PAYMENT_TYPE_DAILY_TOTAL:
+                            message = "日計処理が開始されました。";
+                            break;
+                        
+                        // 取引異常検知解除
+                        case remiseApm.PAYMENT_TYPE_ABNORMAL_UNLOCK:
+                            message = "取引異常検知が解除されました。";
+                            break;
+
+                        default:
+                            break;
+                    }
+                    break;
+
+                case remiseApm.RESULT_STATUS_CANCELED_IN_TERMINAL:
+                    message = "決済端末で操作を取消されました。";
+                    break;
+                case remiseApm.RESULT_STATUS_CANCELED_IN_HOST:
+                    message = "上位機器から取消が行われました。";
+                    break;
+                case remiseApm.RESULT_STATUS_MAINTENANCE:
+                    message = "決済端末メンテナンス中のため利用できません。";
+                    break;
+                case remiseApm.RESULT_STATUS_ERROR_INTERMINAL:
+                    message = "決済端末内でエラーが発生しました。";
+                    break;
+                case remiseApm.RESULT_STATUS_NOT_FOUND_ORDER:
+                    message = "該当の決済データが存在しません。";
+                    break;
+                case remiseApm.RESULT_STATUS_NOT_INSTALLED:
+                    message = "対象アプリケーションは決済端末にインストールされていません。";
+                    break;
+                case remiseApm.RESULT_STATUS_NOT_PROCESSING:
+                    message = "決済アプリケーションは起動していません。";
+                    break;
+                case remiseApm.RESULT_STATUS_PROCESSING:
+                    message = "決済アプリケーションがすでに起動しています。";
+                    break;
+                case remiseApm.RESULT_STATUS_SUCCESS_TO_STOP:
+                    message = "決済端末の処理停止の受付に成功しました。";
+                    break;
+                case remiseApm.RESULT_STATUS_PROCESSING_TO_STOP:
+                    message = "決済端末の処理停止中です。";
+                    break;
+                case remiseApm.RESULT_STATUS_ERROR_TO_STOP:
+                    message = "決済端末の処理停止ができません。";
+                    break;
+                case remiseApm.RESULT_STATUS_TIMEOUT_TERMINAL_CONNECTION:
+                    message = "決済端末との通信はタイムアウトしました。";
+                    break;
+                case remiseApm.RESULT_STATUS_INVALID_INPUT_PARAMETER:
+                    message = "入力パラメータが不正です。";
+                    break;
+                case remiseApm.RESULT_STATUS_ABNORMAL_TRANSACTION_ERROR:
+                    message = "取引異常を検知しました。";
+                    break;
+                case remiseApm.RESULT_STATUS_UNEXPECTED_ERROR:
+                    message = "予期しないエラーが発生しました。";
+                    break;
+                default:
+                    message = "処理結果は以下の通りです。";
+                    break;
+            }
+
+            showMessage(
+                message + "<br><br>"
+                + "<div class=\"response\">"
+                + "PaymentType="    + result.PaymentType    + "<br>"
+                + "Status="         + result.Status         + "<br>"
+                + "ProccessStatus=" + result.ProccessStatus + "<br>"
+                + "AppStatus="      + result.AppStatus      + "<br>"
+                + "ErrType="        + result.ErrType        + "<br>"
+                + "AppErrcode="     + result.AppErrcode     + "<br>"
+                + "AppMessage="     + result.AppMessage     + "<br>"
+                + "AppVersion="     + result.AppVersion     + "<br>"
+                + "Method="         + result.Method         + "<br>"
+                + addMessage
+                + "</div>"
+            );
+        }
+
+        // 中断エラーイベント
+        function remiseApmCancelErrorResult(result) {
+            var message = "";
+            switch (result.Status) {
+                case remiseApm.RESULT_STATUS_NOT_PROCESSING:
+                    message = "決済アプリケーションは起動していません。";
+                    break;
+                case remiseApm.RESULT_STATUS_PROCESSING:
+                    message = "決済アプリケーションがすでに起動しています。";
+                    break;
+                default:
+                    message = "決済端末の処理停止ができません。";
+                    break;
+            }
+
+            showMessage(
+                message + "<br><br>"
+                + "<div class=\"response\">"
+                + "PaymentType="    + result.PaymentType    + "<br>"
+                + "Status="         + result.Status         + "<br>"
+                + "ProccessStatus=" + result.ProccessStatus + "<br>"
+                + "AppStatus="      + result.AppStatus      + "<br>"
+                + "ErrType="        + result.ErrType        + "<br>"
+                + "AppErrcode="     + result.AppErrcode     + "<br>"
+                + "AppMessage="     + result.AppMessage     + "<br>"
+                + "AppVersion="     + result.AppVersion     + "<br>"
+                + "Method="         + result.Method         + "<br>"
+                + "</div>"
+            );
+        }
+
+        // 端末処理状況イベント
+        function remiseApmTerminalProcessingStatus(result) {
+            document.getElementById("dialog-box").style.display = "none";
+            document.getElementById("dialog-overlay").style.display = "none";
+
+            var addMessage = "";
+            switch (result.PaymentType) {
+                // カード決済
+                case remiseApm.PAYMENT_TYPE_CARD_RESULT:
+                    if (result.CardResult) {
+                        addMessage = "<br>"
+                                   + ">CardType="        + result.CardResult.CardType        + "<br>"
+                                   + ">OrderId="         + result.CardResult.OrderId         + "<br>"
+                                   + ">TranId="          + result.CardResult.TranId          + "<br>"
+                                   + ">Card="            + result.CardResult.Card            + "<br>"
+                                   + ">Expire="          + result.CardResult.Expire          + "<br>"
+                                   + ">RefApproved="     + result.CardResult.RefApproved     + "<br>"
+                                   + ">RefForwarded="    + result.CardResult.RefForwarded    + "<br>"
+                                   + ">RefCardbrand="    + result.CardResult.RefCardbrand    + "<br>"
+                                   + ">ArpcInfo="        + result.CardResult.ArpcInfo        + "<br>"
+                                   + ">ErrCode="         + result.CardResult.ErrCode         + "<br>"
+                                   + ">ErrInfo="         + result.CardResult.ErrInfo         + "<br>"
+                                   + ">ErrLevel="        + result.CardResult.ErrLevel        + "<br>"
+                                   + ">Result="          + result.CardResult.Result          + "<br>"
+                                   + ">RefGatewayNo="    + result.CardResult.RefGatewayNo    + "<br>"
+                                   + ">Datetime="        + result.CardResult.Datetime        + "<br>"
+                                   + ">MemberId="        + result.CardResult.MemberId        + "<br>"
+                                   + ">JobId="           + result.CardResult.JobId           + "<br>"
+                                   + ">PayquickId="      + result.CardResult.PayquickId      + "<br>"
+                                   + ">Aid="             + result.CardResult.Aid             + "<br>"
+                                   + ">AppLabel="        + result.CardResult.AppLabel        + "<br>"
+                                   + ">CardSequenceNo="  + result.CardResult.CardSequenceNo  + "<br>"
+                                   + ">Atc="             + result.CardResult.Atc             + "<br>"
+                                   + ">Arc="             + result.CardResult.Arc             + "<br>"
+                                   + ">Spid="            + result.CardResult.Spid            + "<br>"
+                                   + ">Tc="              + result.CardResult.Tc              + "<br>"
+                                   + ">PinErrInfo="      + result.CardResult.PinErrInfo      + "<br>";
+                    }
+                    break;
+
+                // コード決済
+                case remiseApm.PAYMENT_TYPE_QR_RESULT:
+                    if (result.QRResult) {
+                        addMessage = "<br>"
+                                   + ">JobId="           + result.QRResult.JobId             + "<br>"
+                                   + ">OrderId="         + result.QRResult.OrderId           + "<br>"
+                                   + ">Job="             + result.QRResult.Job               + "<br>"
+                                   + ">RCode="           + result.QRResult.RCode             + "<br>"
+                                   + ">ErrInfo="         + result.QRResult.ErrInfo           + "<br>"
+                                   + ">Cny="             + result.QRResult.Cny               + "<br>"
+                                   + ">Gatewayno="       + result.QRResult.Gatewayno         + "<br>"
+                                   + ">CenDate="         + result.QRResult.CenDate           + "<br>"
+                                   + ">TransStatus="     + result.QRResult.TransStatus       + "<br>"
+                                   + ">Payee="           + result.QRResult.Payee             + "<br>"
+                                   + ">PayName="         + result.QRResult.PayName           + "<br>";
+                    }
+                    break;
+
+                // 電子マネー決済
+                case remiseApm.PAYMENT_TYPE_EMONEY_RESULT:
+                    addMessage = "<br>";
+                    break;
+
+                // ポイントカード読み取り
+                case remiseApm.PAYMENT_TYPE_POINT_RESULT:
+                    if (result.PointResult) {
+                        addMessage = "<br>"   
+                                    + ">Result="        + result.PointResult.Result         + "<br>"
+                                    + ">Jis2Data="      + result.PointResult.Jis2Data       + "<br>"
+                                    + ">FormatGroupId=" + result.PointResult.FormatGroupId  + "<br>"
+                                    + ">FormatName="    + result.PointResult.FormatName     + "<br>"
+                                    + ">ConvFlg="       + result.PointResult.ConvFlg        + "<br>"
+                                    + ">Other1="        + result.PointResult.Other1         + "<br>"
+                                    + ">Other2="        + result.PointResult.Other2         + "<br>"
+                                    + ">Other3="        + result.PointResult.Other3         + "<br>"
+                                    + "<br>";
+                    }
+                    break;  
+
+                // 支払方法選択
+                case remiseApm.PAYMENT_TYPE_TERMINAL_RESULT:
+                    // カード決済
+                    if (result.Method == "01" && result.CardResult) {
+                        addMessage = "<br>"
+                                   + ">CardType="        + result.CardResult.CardType        + "<br>"
+                                   + ">OrderId="         + result.CardResult.OrderId         + "<br>"
+                                   + ">TranId="          + result.CardResult.TranId          + "<br>"
+                                   + ">Card="            + result.CardResult.Card            + "<br>"
+                                   + ">Expire="          + result.CardResult.Expire          + "<br>"
+                                   + ">RefApproved="     + result.CardResult.RefApproved     + "<br>"
+                                   + ">RefForwarded="    + result.CardResult.RefForwarded    + "<br>"
+                                   + ">RefCardbrand="    + result.CardResult.RefCardbrand    + "<br>"
+                                   + ">ArpcInfo="        + result.CardResult.ArpcInfo        + "<br>"
+                                   + ">ErrCode="         + result.CardResult.ErrCode         + "<br>"
+                                   + ">ErrInfo="         + result.CardResult.ErrInfo         + "<br>"
+                                   + ">ErrLevel="        + result.CardResult.ErrLevel        + "<br>"
+                                   + ">Result="          + result.CardResult.Result          + "<br>"
+                                   + ">RefGatewayNo="    + result.CardResult.RefGatewayNo    + "<br>"
+                                   + ">Datetime="        + result.CardResult.Datetime        + "<br>"
+                                   + ">MemberId="        + result.CardResult.MemberId        + "<br>"
+                                   + ">JobId="           + result.CardResult.JobId           + "<br>"
+                                   + ">PayquickId="      + result.CardResult.PayquickId      + "<br>"
+                                   + ">Aid="             + result.CardResult.Aid             + "<br>"
+                                   + ">AppLabel="        + result.CardResult.AppLabel        + "<br>"
+                                   + ">CardSequenceNo="  + result.CardResult.CardSequenceNo  + "<br>"
+                                   + ">Atc="             + result.CardResult.Atc             + "<br>"
+                                   + ">Arc="             + result.CardResult.Arc             + "<br>"
+                                   + ">Spid="            + result.CardResult.Spid            + "<br>"
+                                   + ">Tc="              + result.CardResult.Tc              + "<br>"
+                                   + ">PinErrInfo="      + result.CardResult.PinErrInfo      + "<br>";
+                    }
+                    // コード決済
+                    else if (result.Method == "02" && result.QRResult) {
+                        addMessage = "<br>"
+                                   + ">JobId="           + result.QRResult.JobId             + "<br>"
+                                   + ">OrderId="         + result.QRResult.OrderId           + "<br>"
+                                   + ">Job="             + result.QRResult.Job               + "<br>"
+                                   + ">RCode="           + result.QRResult.RCode             + "<br>"
+                                   + ">ErrInfo="         + result.QRResult.ErrInfo           + "<br>"
+                                   + ">Cny="             + result.QRResult.Cny               + "<br>"
+                                   + ">Gatewayno="       + result.QRResult.Gatewayno         + "<br>"
+                                   + ">CenDate="         + result.QRResult.CenDate           + "<br>"
+                                   + ">TransStatus="     + result.QRResult.TransStatus       + "<br>"
+                                   + ">Payee="           + result.QRResult.Payee             + "<br>"
+                                   + ">PayName="         + result.QRResult.PayName           + "<br>";
+                    }
+                    // 電子マネー決済
+                    else if (result.Method == "03") {
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+
+            var now = new Date();
+            showLogMessage(
+                "<div class=\"response\">"
+                + now.toLocaleTimeString() + "<br>"
+                + ">PaymentType="    + result.PaymentType    + "<br>"
+                + ">Status="         + result.Status         + "<br>"
+                + ">ProccessStatus=" + result.ProccessStatus + "<br>"
+                + ">AppStatus="      + result.AppStatus      + "<br>"
+                + ">ErrType="        + result.ErrType        + "<br>"
+                + ">AppErrcode="     + result.AppErrcode     + "<br>"
+                + ">AppMessage="     + result.AppMessage     + "<br>"
+                + ">AppVersion="     + result.AppVersion     + "<br>"
+                + ">Method="         + result.Method         + "<br>"
+                + addMessage
+                + "=====================================================<br>"
+                + "</div><br>"
+            );
+        }
+
+
+        // 請求番号自動採番チェック
+        function switchAutoOrder() {
+            // 自動採番する
+            if (document.getElementById("autoOrder").checked) {
+                document.getElementById("orderId").disabled = true;
+                document.getElementById("orderId").value = "";
+            }
+            // 自動採番しない
+            else {
+                document.getElementById("orderId").disabled = false;
+            }
+        }
+
+        // オフラインモード取得
+        function isOffline() {
+            return document.getElementById("offline").checked;
+        }
+
+        // 請求番号取得
+        function getOrderId() {
+            // 自動採番する
+            if (document.getElementById("autoOrder").checked) {
+                var date = new Date();
+                var orderId = date.getFullYear()
+                            + ('0' + (date.getMonth() + 1)).slice(-2)
+                            + ('0' + date.getDate()).slice(-2)
+                            + ('0' + date.getHours()).slice(-2)
+                            + ('0' + date.getMinutes()).slice(-2)
+                            + ('0' + date.getSeconds()).slice(-2)
+                            + ('00' + date.getMilliseconds()).slice(-3);
+                return orderId;
+            }
+            // 自動採番しない
+            else {
+                return document.getElementById("orderId").value;
+            }
+        }
+
+        // 処理区分取得
+        function getJobType() {
+            // 売上
+            if (document.getElementsByName("job")[0].checked) {
+                return remiseApm.JOB_TYPE_CAPTURE;
+            }
+            // 返品
+            else if (document.getElementsByName("job")[1].checked) {
+                return remiseApm.JOB_TYPE_RETURN;
+            }
+            // 即日取消
+            else if (document.getElementsByName("job")[2].checked) {
+                return remiseApm.JOB_TYPE_VOID;
+            }
+            // 有効性判定
+            else if (document.getElementsByName("job")[3].checked) {
+                return remiseApm.JOB_TYPE_CHECK;
+            }
+            return "";
+        }
+
+        // 決済金額取得
+        function getAmount() {
+            return document.getElementById("amount").value;
+        }
+
+        // 精算機ｺｰﾄﾞ取得
+        function getMachineCode() {
+            return document.getElementById("machineCode").value;
+        }
+
+        // ﾄﾗﾝｻﾞｸｼｮﾝID取得
+        function getTranId() {
+            return document.getElementById("tranId").value;
+        }
+
+        // 取消対象ﾄﾗﾝｻﾞｸｼｮﾝID取得
+        function getCanTranId() {
+            return document.getElementById("cantranId").value;
+        }
+
+        // ｼﾞｮﾌﾞID取得
+        function getJobId() {
+            return document.getElementById("jobId").value;
+        }
+
+        // 処理中画面表示
+        function waitscreen() {
+            document.getElementById("dialog-box").style.display = "block";
+
+            var maskHeight = document.documentElement.clientHeight;
+            var windowWidth = window.innerWidth ? window.innerWidth : window.innerWidth;
+            var windowHeight = window.innerHeight ? window.innerHeight : window.innerHeight;
+            var dialogTop =  (windowHeight/2) - (document.getElementById("dialog-box").clientHeight);
+            var dialogLeft = (windowWidth/2) - (document.getElementById("dialog-box").clientWidth/2);
+
+            document.getElementById("dialog-overlay").style.height = maskHeight;
+            document.getElementById("dialog-overlay").style.width = windowWidth;
+            document.getElementById("dialog-overlay").style.display = "block";
+            document.getElementById("dialog-box").style.top = dialogTop;
+            document.getElementById("dialog-box").style.left = dialogLeft;
+            document.getElementById("dialog-box").style.display = "block";
+
+            scroll(0,0);
+        }
+
+        // メッセージ表示
+        function showMessage(message) {
+            document.getElementById("dialog-box").style.display = "none";
+            document.getElementById("dialog-overlay").style.display = "none";
+
+            document.getElementById("message").innerHTML = message;
+        }
+
+        // ログ表示
+        function showLogMessage(message) {
+            document.getElementById("processing-log-message").innerHTML = message + document.getElementById("processing-log-message").innerHTML;
+        }
+
+    </script>
+
+    <style>
+
+        body, th, td, div, span {
+            font-family: monospace;
+            font-size: 12px;
+        }
+        body {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        input[type="button"] {
+            font-size: 12px;
+            width: 160px;
+        }
+        input[type="text"] {
+            font-size: 12px;
+            width: 100px;
+        }
+
+        .container {
+            width: 100%;
+            margin: 0px;
+            padding: 20px;
+        }
+        .item {
+            font-size: 14px;
+            padding: 1px;
+        }
+
+        .left_content {
+            float: left;
+            margin: 0px;
+            padding: 10px 0px 0px 5px;
+        }
+        .left_content .item .k {
+            display: inline-block;
+            width: 140px;
+            font-size: 14px;
+            vertical-align: top;
+        }
+        .left_content .item .v {
+            display: inline-block;
+            font-size: 14px;
+            vertical-align: top;
+        }
+
+        .center_content {
+            float: left;
+            width: 170px;
+            margin: 0px;
+            padding: 0px 0px 0px 10px;
+        }
+
+        .right_content {
+            float: left;
+            margin: 0px;
+            padding: 0px 0px 0px 10px;
+        }
+        .message {
+            font-size: 20px;
+            color: #FE0000;
+        }
+        .response {
+            font-size: 16px;
+            color: #000000;
+        }
+
+        #dialog-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 99;
+            width: 100%;
+            height: 100%;
+            filter: alpha(opacity=50);
+            -moz-opacity: 0.5;
+            -khtml-opacity: 0.5;
+            opacity: 0.5;
+            background: #000000;
+            display: none;
+        }
+        #dialog-box {
+            position: absolute;
+            z-index: 999;
+            width: 650px;
+            height: 300px;
+            -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+            -moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+            background: #EEEEEE;
+            display: none;
+        }
+        #dialog-box .dialog-content {
+            text-align: center;
+            vertical-align: middle;
+            margin: 30px;
+            padding: 10px 5px;
+        }
+        #dialog-message {
+            font-size: 36px;
+        }
+        #processing-log-box {
+            overflow: auto;
+            width: 500px;
+            height: 300px;
+            padding: 5px;
+            border :2px dotted #ffffff;
+            background-color: #EEEEEE;
+            line-height: 1.5em;
+        }
+        #ipaddress {
+            width: 200px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="left_content">
+        <div class="item">
+            <div class="k">IPｱﾄﾞﾚｽ/ﾄﾞﾒｲﾝ</div>
+            <div class="v">
+                ：<input type="text" id="ipaddress" value="192.168.0.1">
+                <p>※SSL利用時は「SSL利用」にチェックを入れ、<br>　以下のドメインを指定します。</p>
+                <ul>
+                    <li>salo-01：「salo01.remise.co.jp」</li>
+                    <li>Mr.Hunt01：「mrhunt01.remise.co.jp」</li>
+                </ul>
+            </div>
+        </div>
+        <div class="item">
+            <div class="k">SSL利用</div>
+            <div class="v">：<input type="checkbox" id="usessl" value="1">利用する</div>
+        </div>
+        <div class="item">
+            <div class="k">タイムアウト</div>
+            <div class="v">：<input type="text" id="timeout" value="5000"> ms</div>
+        </div>
+        <div class="item">
+            <div class="k">ポーリング</div>
+            <div class="v">：<input type="text" id="polling" value="100"> ms</div>
+        </div>
+        <div class="item">
+            <div class="k">ｵﾌﾗｲﾝﾓｰﾄﾞ</div>
+            <div class="v">：<input type="checkbox" id="offline" value="1">オフライン</div>
+        </div>
+        <br>
+        <div class="item">
+            <div class="k">請求番号</div>
+            <div class="v">：
+                <input type="checkbox" id="autoOrder" value="1">自動採番<br>
+                　<input type="text" id="orderId" value="123">
+            </div>
+        </div>
+        <div class="item">
+            <div class="k">処理区分</div>
+            <div class="v">：
+                <input type="radio" name="job" id="job1" value="CAPTURE" checked>売上<br>
+                　 <input type="radio" name="job" id="job2" value="RETURN">返品<br>
+                　 <input type="radio" name="job" id="job3" value="VOID">即日取消<br>
+                　 <input type="radio" name="job" id="job4" value="CHECK">有効性判定<br>
+            </div>
+        </div>
+        <div class="item">
+            <div class="k">決済金額</div>
+            <div class="v">：<input type="text" id="amount" value="1000"></div>
+        </div>
+        <div class="item">
+            <div class="k">精算機ｺｰﾄﾞ</div>
+            <div class="v">：<input type="text" id="machineCode" value="abcd1234"></div>
+        </div>
+        <div class="item">
+            <div class="k">取消対象ﾄﾗﾝｻﾞｸｼｮﾝID</div>
+            <div class="v">：<input type="text" id="cantranId" value=""></div>
+        </div>
+        <div class="item">
+            <div class="k">ﾄﾗﾝｻﾞｸｼｮﾝID</div>
+            <div class="v">：<input type="text" id="tranId" value=""></div>
+        </div>
+        <div class="item">
+            <div class="k">ｼﾞｮﾌﾞID</div>
+            <div class="v">：<input type="text" id="jobId" value=""></div>
+        </div>
+    </div>
+
+    <div class="center_content">
+        <div class="item">＜支払方法選択＞</div>
+        <input type="button" id="PAYMENT_TYPE_TERMINAL"                 value="支払方法選択"><br>
+        <input type="button" id="PAYMENT_TYPE_TERMINAL_CANCEL"          value="支払方法選択中断"><br>
+        <br>
+        <div class="item">＜カード決済＞</div>
+        <input type="button" id="PAYMENT_TYPE_CARD_APP_INSTALL_CHECK"   value="導入確認"><br>
+        <input type="button" id="PAYMENT_TYPE_CARD"                     value="アプリ起動"><br>
+        <input type="button" id="PAYMENT_TYPE_CARD_CANCEL"              value="アプリ中断"><br>
+        <br>
+        <input type="button" id="PAYMENT_TYPE_CARD_TRAN_CHECK"          value="決済状況確認"><br>
+        <br>
+        <div class="item">＜コード決済＞</div>
+        <input type="button" id="PAYMENT_TYPE_QR_APP_INSTALL_CHECK"     value="導入確認"><br>
+        <input type="button" id="PAYMENT_TYPE_QR"                       value="アプリ起動"><br>
+        <input type="button" id="PAYMENT_TYPE_QR_CANCEL"                value="アプリ中断"><br>
+        <br>
+        <input type="button" id="PAYMENT_TYPE_QR_TRAN_CHECK"            value="決済状況確認"><br>
+        <br>
+        <div class="item">＜電子マネー決済＞</div>
+        <input type="button" id="PAYMENT_TYPE_EMONEY_APP_INSTALL_CHECK" value="導入確認"><br>
+        <input type="button" id="PAYMENT_TYPE_EMONEY"                   value="アプリ起動"><br>
+        <input type="button" id="PAYMENT_TYPE_EMONEY_CANCEL"            value="アプリ中断"><br>
+        <br>
+        <input type="button" id="PAYMENT_TYPE_EMONEY_TRAN_CHECK"        value="決済状況確認"><br>
+        <br>
+        <div class="item">＜ポイントカード読取＞</div>
+        <input type="button" id="PAYMENT_TYPE_POINT_APP_INSTALL_CHECK"  value="導入確認"><br>
+        <input type="button" id="PAYMENT_TYPE_POINT"                    value="アプリ起動"><br>
+        <input type="button" id="PAYMENT_TYPE_POINT_CANCEL"             value="アプリ中断"><br>
+        <br>
+    </div>
+
+    <div class="center_content">
+        <div class="item">＜共通＞</div>
+        <input type="button" id="PAYMENT_TYPE_TERMINAL_APP_CHECK"       value="アプリ起動状況確認"><br>
+        <br>
+        <input type="button" id="PAYMENT_TYPE_CONNETION_CHECK"          value="疎通確認(上位機器⇔端末)"><br>
+        <br>
+        <input type="button" id="PAYMENT_TYPE_TERMINAL_STATUS_CHECK"    value="疎通確認(端末⇔ルミーズ)"><br>
+        <br>
+        <input type="button" id="PAYMENT_TYPE_TERMINAL_RESTART"         value="端末再起動"><br>
+        <br>
+        <input type="button" id="PAYMENT_TYPE_DAILY_TOTAL"              value="日計処理"><br>
+        <br>
+        <input type="button" id="PAYMENT_TYPE_ABNORMAL_UNLOCK"          value="取引異常検知解除"><br>
+    </div>
+
+    <div class="right_content">
+        <span>【処理中ログ】</span>
+        <div id="processing-log-box">
+            <div id="processing-log-message"></div>
+        </div>
+        <br>
+        <span>【実行結果】</span>
+        <div id="message" class="message"></div>
+    </div>
+
+</div>
+
+<div id="dialog-overlay"></div>
+<div id="dialog-box">
+    <div class="dialog-content">
+        <div id="dialog-message">処理中...</div>
+    </div>
+</div>
+
+</body>
+</html>

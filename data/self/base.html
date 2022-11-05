@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache" />
+<meta http-equiv="expires" content="0" />
+<script type='text/javascript' src="libs/js/jquery-2.1.1.min.js" ></script>
+
+	<style type="text/css">
+		body,
+		#page {
+			margin: 0;
+			padding: 0;
+		}
+		iframe {
+			border:0;
+		}
+	</style>
+
+	<script type="text/javascript">
+		//プレビューモード モードIDを出力
+		var mode = '03';
+		//画面サイズ xga:1024×768 wxga:1024×600 
+		var vmode = 'xga'; 
+		$(document).ready( function() {
+			var frame = $("#myframe");
+			var w = window.innerWidth;
+			var h = window.innerHeight;
+			w = 768;
+			h = 1024 ;
+			frame.width(w);
+			frame.height(h);
+			var url = "android.html?islocal=true&mode=" + mode;
+			frame.attr("src", url);
+		});
+	</script>
+	<script type='text/javascript' src="libs/js/Config.js" ></script>
+
+</head>
+<body id="wsvga">
+
+<div id="page">
+
+	<iframe id="myframe"></iframe>
+
+</div>
+<!-- end Page -->
+
+</body>
+</html>

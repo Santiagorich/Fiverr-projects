@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root id="custompage" version="1.0">
+	<mode type="01" name="">
+		<category code="920">
+			<template baseurl="optionmenu/" type="00_00" title_name="" description1="" description2=""/>
+		
+			<template baseurl="optionmenu/" type="00_00" title_name="" description1="" description2=""/>
+		</category>
+		<category code="930">
+			<template baseurl="optionmenu/" type="00_00" title_name="" description1="" description2=""/>
+		
+			<template baseurl="optionmenu/" type="00_00" title_name="" description1="" description2=""/>
+		</category>
+	
+		<category code="920"/>
+		<category code="930"/></mode>
+</root>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CheckPerson>
+<item id="000" name="なし"  />
+<item id="001" name="鍋2人前以上" type="item" value="2" order="order" fix="2" mode="" msg="check_person_001" cart="false" />
+</CheckPerson>

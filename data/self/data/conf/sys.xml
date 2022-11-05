@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root id="sys" version="1.0">
+	<version menu="202209151253" pos="202209151253"/>
+	<sys lastupdate="20220915_01"/>
+	<host address="192.168.0.100"/>
+	<timer servlet="40000" xml="200000" swf="200000"/>
+	<multilanguage usage="true" default="日本語" alternate="English"/>
+	<menutype original=""/>
+	<max_value total="30" subtotal="20" alert="15"/>
+	<displayTableInfo enable="true"/>
+	<include_tax enable="true" type="1"/>
+	<custompage type="recommend"/>
+	<staffcall enable="false" id=""/>
+	<accountingcall enable="false" id=""/>
+	<product_img type="png"/>
+	<terminal_checkin usage="false" inp_number="false"/>
+	<modelist>
+		<mode name="新規モード" type="01" autochange="0" from="" to="" default="" limit_disp="0" limit_after="0" announce_time="" announce_msg="" btl_code="0" check_persons="false" custom="false" disabled="0" refill="true" bashing="true" kiosk="false" announce_time2="" announce_msg2="" alert_enable="0" alert_type="0" alert_time=""/>
+		<mode name="qr" type="02" autochange="0" from="" to="" default="" limit_disp="0" limit_after="0" announce_time="" announce_msg="" btl_code="0" check_persons="false" custom="false" disabled="0" refill="true" bashing="true" kiosk="false" announce_time2="" announce_msg2="" alert_enable="0" alert_type="0" alert_time=""/>
+		<mode name="デモ" type="03" autochange="0" from="" to="" default="" limit_disp="0" limit_after="0" announce_time="" announce_msg="" btl_code="0" check_persons="false" custom="false" disabled="0" refill="true" bashing="true" kiosk="false" announce_time2="" announce_msg2="" alert_enable="0" alert_type="0" alert_time=""/>
+		<mode name="中なし" type="04" autochange="0" from="" to="" default="" limit_disp="0" limit_after="0" announce_time="" announce_msg="" btl_code="0" check_persons="false" custom="false" disabled="0" refill="true" bashing="true" kiosk="false" announce_time2="" announce_msg2="" alert_enable="0" alert_type="0" alert_time=""/>
+	</modelist>
+</root>
